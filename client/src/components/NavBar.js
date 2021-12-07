@@ -8,24 +8,36 @@ import {
     UserAddOutlined,
   } from "@ant-design/icons";
 
-  const {Item} = Menu;
+import {useState, useEffect} from "react"
+const {Item} = Menu;
 const NavBar = () => {
-
+// active navbar
+    const [current, setCurrent] = useState("");
+    useEffect(() => {
+        process.browser && setCurrent(window.location.pathname)
+        console.log(window.location.pathname)
+    }, [process.browser && window.location.pathname])
     return (
-        <Menu className="nav-bar">
-            <Item className="nav-item" icon={<AppstoreOutlined/>}>
+        <Menu className="nav-bar" selectedKeys = {[current]}>
+            <Item key="/" 
+            onClick={(e) => setCurrent(e.key)}
+            className="nav-item" icon={<AppstoreOutlined/>}>
                 <Link to="/">
-                    <a>Home</a>
+                    Home
                 </Link>
             </Item>
-            <Item className="nav-item" icon={<LoginOutlined/>}>
+            <Item key="/login" 
+                onClick={(e) => setCurrent(e.key)}
+                className="nav-item" icon={<LoginOutlined/>}>
                 <Link to="/login">
-                    <a>Login</a>
+                    Login
                 </Link>
             </Item>
-            <Item className="nav-item" icon={<UserAddOutlined/>}>
+            <Item key="/register" 
+                onClick={(e) => setCurrent(e.key)}
+                className="nav-item" icon={<UserAddOutlined/>}>
                 <Link to="/register">
-                    <a>Register</a>
+                    Register
                 </Link>
             </Item>
         </Menu>

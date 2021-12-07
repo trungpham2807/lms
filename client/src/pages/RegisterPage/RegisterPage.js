@@ -4,21 +4,31 @@ manage render with useState
 import React, {useState} from 'react'
 import axios from 'axios'
 import {toast} from "react-toastify"
+import CircleLoader from "react-spinners/CircleLoader";
+import {Link} from "react-router-dom"
+// require('dotenv').config()
+// const abc = process.env.PUBLIC_API;
+// console.log("abc", abc)
 const RegisterPage = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
+  // handle loading spinner
+  const [loading, setLoading] = useState(false);
   // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
+      setLoading(true);
       const {data} = await axios.post(`http://localhost:8000/api/auth/register`, { 
         name, email, password
       })
       toast.success("Register successfully")
+      setLoading(false);
     }catch(err){
       toast.error(err.response.data)
+      setLoading(false)
     }
    
   }
@@ -45,8 +55,17 @@ const RegisterPage = () => {
         placeholder="Enter password"
         required />
         <br />
-        <button type="submit" className="btn btn-block btn-primary p-2">Submit</button>
+        <button type="submit" className="btn btn-block btn-primary p-2"
+        disabled = {!name || !email || !password || loading}>
+          {/* Set loading spinner */}
+          {loading ? <CircleLoader /> : "Submit" }</button>
       </form>
+      <p className="text-center p-3">
+        Already registered?
+        <Link to="/login">
+          Login
+        </Link>
+      </p>
 
     </div>
     </>

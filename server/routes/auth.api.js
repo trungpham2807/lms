@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const {
-    register
+    register,
+    login
 } = require('../controllers/auth.controller') 
 
 
@@ -9,10 +10,7 @@ const {
 // Register route
 router.post("/register", register)
 
-router.get("/login", (req, res) => {
-    res.send("login")
-})
-
+router.post("/login", login)
 // router.post("/login/google", (req, res) => {
 //     res.send("login with google")
 // })

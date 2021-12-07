@@ -1,14 +1,68 @@
-import React from 'react'
-
+/* This Register page
+manage render with useState
+*/
+import React, {useState} from 'react'
+import axios from 'axios'
+import {toast} from "react-toastify"
+import CircleLoader from "react-spinners/CircleLoader";
+import {Link} from "react-router-dom"
+// require('dotenv').config()
+// const abc = process.env.PUBLIC_API;
+// console.log("abc", abc)
 const LoginPage = () => {
-    return (
-        <>
-        <h1 className="jumbotron text-center bg-primary square">
-         Login
-        </h1>
-        <p>login page</p>
-        </>
-      )
-}
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
+  // handle loading spinner
+  const [loading, setLoading] = useState(false);
+  // handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try{
+      setLoading(true);
+      const {data} = await axios.post(`http://localhost:8000/api/auth/login`, { 
+        email, password
+      })
+      toast.success("Login successfully")
+      setLoading(false);
+    }catch(err){
+      toast.error(err.response.data)
+      setLoading(false)
+    }
+   
+  }
+  return (
+    <>
+    <h1 className="jumbotron text-center bg-primary square">Login Page</h1>
+    {/*column 12 grid -> md-4: center, padding: 5 */}
+    <div className="container col-md-4 offset-md-4 pb-5">
+      <form onSubmit={handleSubmit}>
+        {/* whenever user type sth input-> grab value -> populate */}
+        <input type="text" className="form-control mb-4 p-4"
+         value={email} 
+         onChange={(e) => setEmail(e.target.value)}
+         placeholder ="Enter email"
+         required/>
+        <input type="password" className="form-control mb-4 p-4" 
+        value={password} 
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Enter password"
+        required />
+        <br />
+        <button type="submit" className="btn btn-block btn-primary p-2"
+        disabled = {!email || !password || loading}>
+          {/* Set loading spinner */}
+          {loading ? <CircleLoader /> : "Submit" }</button>
+      </form>
+      <p className="text-center p-3">
+        Not have account?
+        <Link to="/register">
+          Register
+        </Link>
+      </p>
+
+    </div>
+    </>
+  )
+}
 export default LoginPage
