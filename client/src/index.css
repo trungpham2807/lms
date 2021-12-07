@@ -1,0 +1,17 @@
+.square{
+  border-radius: 0px;
+}
+.jumbotron{
+  background-image: url(https://www.joshmorony.com/media/2016/04/alto-screenshot.jpeg);
+  color: #fff;
+  height: 200px;
+  /* padding-top: 20%;
+  padding-bottom: 20%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover; */
+}
+.pointer{
+  cursor: pointer;
+}
