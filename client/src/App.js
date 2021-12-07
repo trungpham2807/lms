@@ -14,6 +14,8 @@ import HomePage from "./pages/HomePage/HomePage"
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 
+// test
+import CourseCreate from "./pages/InstructorPage/CoursePage/CourseCreate"
 function App() {
   return (
     <div className="App">
@@ -24,6 +26,9 @@ function App() {
           <Route path="/" element = {<HomePage />} />
           <Route path="/login" element = {<LoginPage />} />
           <Route path="/register" element = {<RegisterPage />} />
+
+          {/* test route */}
+          <Route path="/instructor/course/create" element={<CourseCreate/>}  />
         </Routes>
       </Router>
     </div>
