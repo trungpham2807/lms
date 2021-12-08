@@ -41,7 +41,7 @@ const CourseCreate = () => {
             0,
             async (uri) => {
                 try{
-                    let {data} = await axios.post("/api/course/upload-image", {
+                    let {data} = await axios.post("http://localhost:8000/api/course/upload-image", {
                         image: uri,
                         // set image in state
                     })
@@ -58,9 +58,16 @@ const CourseCreate = () => {
         )
 
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(values)
+        try{
+            const {data} = await axios.post("http://localhost:8000/api/course", {
+                ...values,
+                image,
+            })
+        }catch(err){
+            toast(err.response.data)
+        }
     }
 
     return (

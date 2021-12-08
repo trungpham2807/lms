@@ -21,11 +21,11 @@ const courseSchema = new Schema(
             default: false
         },
         paid: {type: Boolean, default: false},
-        instructor: {type: ObjectId, ref: "User", required: true}
+        // instructor: {type: ObjectId, ref: "User", required: true}
        }, 
        {
         timestamps: true,
     }
 )
 const Course = mongoose.model("Course", courseSchema)
-module.exports = User;
+module.exports = Course;
