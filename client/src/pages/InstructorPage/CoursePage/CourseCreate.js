@@ -15,7 +15,7 @@ const CourseCreate = () => {
         loading: false,
         category: "",
     })
-    const [image, setImage] = useState('')
+    const [image, setImage] = useState({})
     const [preview, setPreview] = useState('')
     const [uploadButton, setUploadButton] = useState('Upload Image')
     // using different name properties instead of write every single on change -> [] dynamic
@@ -58,6 +58,23 @@ const CourseCreate = () => {
         )
 
     }
+    // remove image
+    const handleImageRemove = async (e) => {
+        e.preventDefault();
+        try{
+            setValues({...values, loading: true})
+            const res = await axios.post('http://localhost:8000/api/course/remove-image', {image})
+            setImage({})
+            setPreview('')
+            setUploadButton('Upload image')
+            setValues({...values, loading: false})
+            toast.success("Remove success")
+        }catch(err){
+            setValues({...values, loading: false})
+            toast.error("Image remove failed. Try again")
+        }
+        
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
@@ -77,6 +94,7 @@ const CourseCreate = () => {
             <CourseCreateForm 
             handleSubmit={handleSubmit}
             handleImage={handleImage}
+            handleImageRemove={handleImageRemove}
             handleChange={handleChange}
             values={values}
             setValues={setValues}
@@ -85,7 +103,7 @@ const CourseCreate = () => {
             setUploadButton={setUploadButton}
             />
             <pre>{JSON.stringify(values, null, 4)}</pre>
-            <pre>image: {JSON.stringify(preview, null, 4)} </pre>
+            <pre>image: {JSON.stringify(image, null, 4)} </pre>
         </div>
         </>
     )

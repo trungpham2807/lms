@@ -1,13 +1,14 @@
 /* This create course form component for instructor*/
 import React from 'react'
 import {useState, useEffect} from "react"
-import {Select, Button, Avatar } from 'antd';
+import {Select, Button, Avatar, Badge } from 'antd';
 import {SaveOutlined} from "@ant-design/icons"
 
 const { Option } = Select;
 const CourseCreateForm = ({handleSubmit, 
     handleImage,
     handleChange,
+    handleImageRemove,
     values, 
     setValues,
     preview,
@@ -98,7 +99,9 @@ const CourseCreateForm = ({handleSubmit,
                         </div>
                     </div>
                     {preview && (
-                        <Avatar shape="square" size={200} src={preview} />
+                        <Badge count="X" onClick={handleImageRemove} className="pointer">
+                            <Avatar shape="square" size={200} src={preview} />
+                        </Badge>
                     )}
                 </div>
                 

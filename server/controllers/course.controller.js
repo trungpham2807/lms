@@ -48,7 +48,22 @@ courseController.uploadImage = async (req, res) => {
     }
 }
 
-
+// remove image from AWS
+courseController.removeImage = async (req, res) => {
+    try{
+        const {image} = req.body;
+        const params = {
+            Bucket: image.Bucket,
+            Key: image.Key,
+        }
+        S3.deleteObject(params, (err, data) => {
+            if(err) return res.sendStatus(400);
+            res.status(200).send("Successfully delete image")
+        })
+    }catch(err){
+        console.log(err)
+    }
+}
 // get course 
 courseController.postCourse = async (req, res) => {
     try{
@@ -57,4 +72,5 @@ courseController.postCourse = async (req, res) => {
         console.log(err)
     }
 }
+
 module.exports = courseController;
