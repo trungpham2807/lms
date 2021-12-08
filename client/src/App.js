@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css'
 import {ToastContainer} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-// import 'ant/dist/antd.css'
+import 'antd/dist/antd.css';
 import NavBar from "./components/NavBar"
 import {
   BrowserRouter as Router,

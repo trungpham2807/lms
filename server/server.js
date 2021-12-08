@@ -29,7 +29,7 @@ mongoose.connect(
 
 app.use(cors());
 // can take any json object (send data from front -> back)
-app.use(express.json());
+app.use(express.json({limit : "3mb"}));
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use((req,res,next)=> {

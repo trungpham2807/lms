@@ -1,11 +1,18 @@
 /* This create course form component for instructor*/
 import React from 'react'
 import {useState, useEffect} from "react"
-import {Select, Button } from 'antd';
+import {Select, Button, Avatar } from 'antd';
 import {SaveOutlined} from "@ant-design/icons"
 
 const { Option } = Select;
-const CourseCreateForm = ({handleSubmit, handleImage, handleChange, values, setValues}) => {
+const CourseCreateForm = ({handleSubmit, 
+    handleImage,
+    handleChange,
+    values, 
+    setValues,
+    preview,
+    uploadButton,
+    setUploadButton}) => {
     const priceArray = []
     for (let i=6.99; i<=99.99; i++){
         priceArray.push(<Option key={i.toFixed(2)}>${i.toFixed(2)}</Option>)
@@ -48,20 +55,22 @@ const CourseCreateForm = ({handleSubmit, handleImage, handleChange, values, setV
                             </Select>
                         </div>
                     </div>
-                </div>
-                {/* Price dropdown */}
-                {values.paid && <div className="col-md-6">
-                    <div className="form-group">
-                        <Select
-                        defaultValue="$6.99"
-                        style={{width: "100%"}}
-                        onChange = {e => setValues({...values, price: e})}
-                        tokenSeparator={[,]}
-                        size="large">
-                          {priceArray}
-                        </Select>
-                    </div>
+                    {/* Price dropdown */}
+                    {values.paid && 
+                    <div className="col-md-6">
+                        <div className="form-group">
+                            <Select
+                            defaultValue="$6.99"
+                            style={{width: "100%"}}
+                            onChange = {e => setValues({...values, price: e})}
+                            tokenSeparator={[,]}
+                            size="large">
+                            {priceArray}
+                            </Select>
+                        </div>
                     </div>}
+                </div>
+    
                 {/* Category */}
                     <div className="form-group">
                     <input type="text" 
@@ -77,11 +86,10 @@ const CourseCreateForm = ({handleSubmit, handleImage, handleChange, values, setV
                     <div className="col">
                         <div className="form-group">
                             <label className="btn btn-outline-secondary btn-block text-left">
-                                {values.loading ? 'Uploading' : 'Image Upload'}
-                                <input 
+                             {uploadButton}                                
+                            <input 
                                 type="file" 
                                 name="image" 
-                                style={{width: "100%"}}
                                 size="large"
                                 onChange={handleImage} 
                                 accept="image/*" 
@@ -89,8 +97,11 @@ const CourseCreateForm = ({handleSubmit, handleImage, handleChange, values, setV
                             </label>
                         </div>
                     </div>
+                    {preview && (
+                        <Avatar shape="square" size={200} src={preview} />
+                    )}
                 </div>
-
+                
                 {/* Upload course */}
                 <div className="row">
                     <div className="col">
