@@ -3,6 +3,7 @@ const sendResponse = require("../helpers/sendResponse.helper");
 const AWS = require("aws-sdk");
 const {nanoid} = require("nanoid"); 
 const Course = require("../models/Course")
+const slugify = require("slugify")
 require('dotenv').config()
 
 const awsConfig = {
@@ -64,8 +65,29 @@ courseController.removeImage = async (req, res) => {
         console.log(err)
     }
 }
+// create Course 
+courseController.createCourse = async (req, res) => {
+    let course;
+    try{
+        const alreadyExist = await Course.findOne({
+            slug: slugify(req.body.name.toLowerCase()),
+        })
+        if(alreadyExist) return res.status(400).send("Course title already is taken")
+
+        course = await Course.create({
+            slug: slugify(req.body.name),
+            instructor: req.userId,
+            ...req.body,
+        })
+        // res.json(course);
+        res.status(200).send("Course create successfully")
+    }catch(err){
+        return res.status(400).send("Course create failed")
+    }
+    
+}
 // get course 
-courseController.postCourse = async (req, res) => {
+courseController.getCourse = async (req, res) => {
     try{
         console.log("haha")
     }catch(err){
