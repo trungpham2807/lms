@@ -6,6 +6,7 @@ import {
     AppstoreOutlined,
     LoginOutlined,
     UserAddOutlined,
+    TeamOutlined,
   } from "@ant-design/icons";
 
 import {useState, useEffect} from "react"
@@ -19,6 +20,14 @@ const NavBar = () => {
     }, [process.browser && window.location.pathname])
     return (
         <Menu className="nav-bar" selectedKeys = {[current]}>
+             <Item key="/user/become-instructor" 
+            onClick={(e) => setCurrent(e.key)}
+            className="nav-item" icon={<TeamOutlined/>}>
+                <Link to="/user/become-instructor">
+                    Become Instructor
+                </Link>
+            </Item>
+
             <Item key="/" 
             onClick={(e) => setCurrent(e.key)}
             className="nav-item" icon={<AppstoreOutlined/>}>

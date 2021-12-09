@@ -4,8 +4,10 @@ import axios from "axios"
 import  Resizer from "react-image-file-resizer"
 import CourseCreateForm from "../../../components/forms/CourseCreateForm"
 import {toast} from "react-toastify"
-const CourseCreate = () => {
+import { useNavigate } from "react-router-dom";
 
+const CourseCreate = () => {
+    let navigate = useNavigate();    
     const [values, setValues] = useState({
         name: '',
         description: '',
@@ -82,6 +84,8 @@ const CourseCreate = () => {
                 ...values,
                 image,
             })
+            toast.success("Successfully create course")
+            navigate("/instructor")
         }catch(err){
             toast(err.response.data)
         }

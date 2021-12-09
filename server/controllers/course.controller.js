@@ -4,6 +4,7 @@ const AWS = require("aws-sdk");
 const {nanoid} = require("nanoid"); 
 const Course = require("../models/Course")
 const slugify = require("slugify")
+const {readFileSync} = require("fs")
 require('dotenv').config()
 
 const awsConfig = {
@@ -95,4 +96,33 @@ courseController.getCourse = async (req, res) => {
     }
 }
 
+// Lesson controller
+courseController.uploadVideo = async (req, res) => {
+    try{
+        const {video} = req.files;
+        // console.log(video)
+        if(!video) return res.status(400).send("No video")
+
+        // video params bucket
+        const params = {
+            Bucket: "lms-trung-bucket",
+            // generate random name and give video type
+            Key: `${nanoid()}.${video.type.split('/')[1]}`, //video/mp4
+            Body: readFileSync(video.path),
+            // ACL: "public-read",
+            ContentType: video.type,
+        }
+        // upload video to S3 bucket
+        S3.upload(params, (err,data) => {
+            if(err){
+                console.log(err)
+                return res.sendStatus(400);
+            }
+            console.log(data)
+            res.send(data);
+        })
+    }catch(err){
+        console.log(err)
+    }
+}
 module.exports = courseController;

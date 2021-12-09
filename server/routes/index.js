@@ -15,4 +15,7 @@ router.use("/auth", authRoutes);
 const courseRoutes = require("./course.api");
 router.use("/course", courseRoutes);
 
+// instructorRoute
+const instructorRoutes = require("./instructor.api");
+router.use("/instructor", instructorRoutes);
 module.exports = router;
