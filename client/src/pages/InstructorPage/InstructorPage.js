@@ -69,7 +69,7 @@ const InstructorPage = () => {
     return (
         <div>
             <h1 className="jumbotron text-center square">Instructor Dashboard</h1>
-            {/* {courses && courses.map(course => (
+            {courses && courses.map(course => (
                 <>
                 <div className="media pt-2">
                     <Avatar size={80} src = {course.image ? course.image.Location : "/course.jpeg"} />
@@ -84,7 +84,7 @@ const InstructorPage = () => {
 
                 </div>
                 </>
-            ))} */}
+            ))}
             {/* note for button lesson -> move to {course} */}
             <div className="row">
                 <Button 

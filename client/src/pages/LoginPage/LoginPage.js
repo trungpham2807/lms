@@ -1,15 +1,24 @@
 /* This Register page
 manage render with useState
 */
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import axios from 'axios'
 import {toast} from "react-toastify"
 import CircleLoader from "react-spinners/CircleLoader";
 import {Link} from "react-router-dom"
+import {Context} from "../../context/index"
+import { useNavigate } from "react-router-dom";
+
 // require('dotenv').config()
 // const abc = process.env.PUBLIC_API;
-// console.log("abc", abc)
+
 const LoginPage = () => {
+  let navigate = useNavigate();
+  // global state
+  const {state, dispatch} = useContext(Context)
+  const {user} = state;
+
+  // internal state
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
@@ -24,6 +33,16 @@ const LoginPage = () => {
         email, password
       })
       toast.success("Login successfully")
+      // dispatch data - context provider 
+      dispatch({
+        type: "LOGIN",
+        payload: data,
+      })
+      // save data in local storage
+      window.localStorage.setItem('user', JSON.stringify(data))
+      // redirect homepage after login success
+      navigate("/")
+      
       setLoading(false);
     }catch(err){
       toast.error(err.response.data)

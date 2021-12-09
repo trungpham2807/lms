@@ -3,7 +3,7 @@ import React from 'react'
 const HomePage = () => {
     return (
         <div>
-            This is home page
+        <h1 className="jumbotron text-center bg-primary square">Home Page</h1>
         </div>
     )
 }

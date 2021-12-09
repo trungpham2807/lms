@@ -27,7 +27,7 @@ function App() {
           <Route path="/" element = {<HomePage />} />
           <Route path="/login" element = {<LoginPage />} />
           <Route path="/register" element = {<RegisterPage />} />
-
+    
           {/* test route */}
           <Route path="/instructor/course/create" element={<CourseCreate/>}  />
           <Route path="/instructor" element={<InstructorPage />} />

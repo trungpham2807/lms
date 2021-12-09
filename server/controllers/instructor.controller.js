@@ -4,7 +4,7 @@ const instructorController = {};
 
 instructorController.getInstructorCourse = async (req, res) => {
     try{
-        const courses = await Course.find({instructor: req.userId})
+        const courses = await Course.find({instructor : userId})
         .sort({createAt: -1})
         .exec();
         res.json(courses)

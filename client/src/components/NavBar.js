@@ -8,10 +8,12 @@ import {
     UserAddOutlined,
     TeamOutlined,
   } from "@ant-design/icons";
-
+import {useDispatch, useSelector} from "react-redux"
 import {useState, useEffect} from "react"
+
 const {Item} = Menu;
 const NavBar = () => {
+
 // active navbar
     const [current, setCurrent] = useState("");
     useEffect(() => {
