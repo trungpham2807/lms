@@ -79,4 +79,13 @@ check password correct: take user pass -> hash -> compare with hash saved -> gen
       console.log(err)
     }
   }
+  authController.currentUser = async (req, res) => {
+    try{
+      const user = await User.findById(req.user._id).select('-password').exec();
+      console.log('"CURRENT USER', user)
+      return res.json(user)
+    }catch(err){
+
+    }
+  }
 module.exports = authController;

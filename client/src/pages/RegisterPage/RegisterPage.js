@@ -1,15 +1,27 @@
 /* This Register page
 manage render with useState
 */
-import React, {useState} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import axios from 'axios'
 import {toast} from "react-toastify"
 import CircleLoader from "react-spinners/CircleLoader";
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
+import {Context} from "../../context/index"
+
 // require('dotenv').config()
 // const abc = process.env.PUBLIC_API;
 // console.log("abc", abc)
 const RegisterPage = () => {
+  let navigate = useNavigate();
+  // global state
+  const {state, dispatch} = useContext(Context)
+  const {user} = state;
+
+  // protected route render homepage when run register page only log in (whenever user change -> run)
+  useEffect(() => {
+    if(user !== null)
+    navigate("/")
+  }, [user])
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");

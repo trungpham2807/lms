@@ -1,7 +1,7 @@
 /* This Register page
 manage render with useState
 */
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import axios from 'axios'
 import {toast} from "react-toastify"
 import CircleLoader from "react-spinners/CircleLoader";
@@ -17,6 +17,12 @@ const LoginPage = () => {
   // global state
   const {state, dispatch} = useContext(Context)
   const {user} = state;
+
+  // protected route render only log in (whenever user change -> run)
+  useEffect(() => {
+    if(user !== null)
+    navigate("/")
+  }, [user])
 
   // internal state
   const [password, setPassword] = useState("");
@@ -42,7 +48,7 @@ const LoginPage = () => {
       window.localStorage.setItem('user', JSON.stringify(data))
       // redirect homepage after login success
       navigate("/")
-      
+
       setLoading(false);
     }catch(err){
       toast.error(err.response.data)

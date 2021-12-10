@@ -17,6 +17,7 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 // test
 import CourseCreate from "./pages/InstructorPage/CoursePage/CourseCreate"
 import InstructorPage from "./pages/InstructorPage/InstructorPage"
+import UserPage from "./pages/UserPage/UserPage"
 function App() {
   return (
     <div className="App">
@@ -31,6 +32,7 @@ function App() {
           {/* test route */}
           <Route path="/instructor/course/create" element={<CourseCreate/>}  />
           <Route path="/instructor" element={<InstructorPage />} />
+          <Route path="/user" element={<UserPage />} />
         </Routes>
       </Router>
     </div>
