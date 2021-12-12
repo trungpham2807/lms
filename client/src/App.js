@@ -18,6 +18,8 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import CourseCreate from "./pages/InstructorPage/CoursePage/CourseCreate"
 import InstructorPage from "./pages/InstructorPage/InstructorPage"
 import UserPage from "./pages/UserPage/UserPage"
+import BecomeInstructor from "./pages/UserPage/BecomeIntructor"
+import StripePage from "./pages/StripePage/StripePage"
 function App() {
   return (
     <div className="App">
@@ -33,6 +35,8 @@ function App() {
           <Route path="/instructor/course/create" element={<CourseCreate/>}  />
           <Route path="/instructor" element={<InstructorPage />} />
           <Route path="/user" element={<UserPage />} />
+          <Route path="/user/become-instructor" element={<BecomeInstructor />} />
+          <Route path="instructor/get-account-status" element={<StripePage/>} />
         </Routes>
       </Router>
     </div>

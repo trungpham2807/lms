@@ -11,29 +11,30 @@ import {
     UserAddOutlined,
     TeamOutlined,
     LogoutOutlined,
-    SmileOutlined
+    SmileOutlined,
+    CarryOutOutlined,
   } from "@ant-design/icons";
 import {useDispatch, useSelector} from "react-redux"
 import {useState, useContext, useEffect} from "react"
 import {Context} from "../context/index"
-const {Item, SubMenu} = Menu;
+const {Item, SubMenu, ItemGroup} = Menu;
 const NavBar = () => {
 
 const navigate = useNavigate();
 // global state
-const {state, dispatch} = useContext(Context)
-const {user} = state;
+const {state : {user}, dispatch} = useContext(Context)
 // active navbar
     const [current, setCurrent] = useState("");
     useEffect(() => {
         process.browser && setCurrent(window.location.pathname)
-        console.log(window.location.pathname)
+        // console.log(window.location.pathname)
     }, [process.browser && window.location.pathname])
 
+    // handle logout
     const handleLogout = async () => {
         dispatch({type: "LOGOUT"});
         window.localStorage.removeItem("user");
-        const {data} = await axios.get("http://localhost/api/auth/logout")
+        const {data} = await axios.get("http://localhost:8000/api/auth/logout")
         toast("success logout");
         // redirect
         navigate("/login")
@@ -41,13 +42,13 @@ const {user} = state;
     }
     return (
         <Menu className="nav-bar" selectedKeys = {[current]}>
-             <Item key="/user/become-instructor" 
+             {/* <Item key="/user/become-instructor" 
             onClick={(e) => setCurrent(e.key)}
             className="nav-item" icon={<TeamOutlined/>}>
                 <Link to="/user/become-instructor">
                     Become Instructor
                 </Link>
-            </Item>
+            </Item> */}
 
             <Item key="/" 
             onClick={(e) => setCurrent(e.key)}
@@ -56,7 +57,24 @@ const {user} = state;
                     Home
                 </Link>
             </Item>
-  
+            {/* if user = subscriber -> nav: become instructor. If instructor -> create course */}
+        {user && user.role && user.role.includes("instructor") ? (
+            <Item key="/instructor/course/create" 
+            onClick={(e) => setCurrent(e.key)}
+            className="nav-item" icon={<CarryOutOutlined/>}>
+            <Link to="/instructor/course/create">
+                Create Course
+            </Link>
+        </Item>
+        ) : (
+            <Item key="/user/become-instructor" 
+                onClick={(e) => setCurrent(e.key)}
+                className="nav-item" icon={<TeamOutlined/>}>
+                <Link to="/user/become-instructor">
+                    Become Instructor
+                </Link>
+            </Item>
+        )}
             {/* if user null -> show login and register link */}
             {user === null && (
                 <>
@@ -79,13 +97,19 @@ const {user} = state;
             {/* if user already login -> show submenu dashboard with: Logout, login, register */}
             {user !== null && (
                 <>
-                <SubMenu icon = {<SmileOutlined/>} title={user && user.user.name} className="float-right">
-                    <Item  
-                    onClick={handleLogout}
-                    icon={<LogoutOutlined/>}>  
-                        Logout
-                    </Item>
-
+                <SubMenu icon = {<SmileOutlined/>} title={user && user.name} className="float-right">
+                    <ItemGroup>
+                        <Item key="/user">
+                            <Link to="/user">
+                                Dashboard
+                            </Link>
+                        </Item>
+                        <Item  
+                            onClick={handleLogout}
+                            icon={<LogoutOutlined/>}>  
+                            Logout
+                        </Item>
+                    </ItemGroup>
                 </SubMenu>     
                 </>
             )}

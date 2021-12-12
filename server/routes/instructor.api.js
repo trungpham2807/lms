@@ -1,8 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
-const {getInstructorCourse} = require("../controllers/instructor.controller")
+const {getInstructorCourse, becomeInstructor} = require("../controllers/instructor.controller")
+// middleware
+const authMiddleware = require("../middlewares/index")
 
-router.get("/instructor-courses", getInstructorCourse)
-
+router.get("/instructor-courses",
+//  authMiddleware.loginRequired,
+ getInstructorCourse)
+// become instructor
+router.post("/become-instructor", 
+// authMiddleware.loginRequired,
+ becomeInstructor)
 module.exports = router;

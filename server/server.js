@@ -2,8 +2,10 @@ const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser')
+const jsonwebtoken = require("jsonwebtoken");
+const bodyParser = require('body-parser')
 require('dotenv').config()
-
+// const csrf = require('csurf')
 // create express app
 const app = express();
 
@@ -33,16 +35,17 @@ app.use(cors());
 app.use(express.json({limit : "3mb"}));
 app.use(cookieParser());
 app.use(morgan("dev"));
-app.use((req,res,next)=> {
-  console.log("this is middleware");
-  next();
-})
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 
 // route
 const indexRouter = require("./routes/index")
 app.use("/api", indexRouter);
 
-
+// app.get("http:localhost:8000/api/csrf-token", (req, res) => {
+//   res.json({ csrfToken: req.csrfToken() });
+// });
 // port
 
 app.listen(process.env.PORT || 8000, ()=>{

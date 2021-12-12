@@ -1,8 +1,10 @@
 import React from 'react'
-import {Button} from "antd"
-const LessonCreateForm = ({handleCreateLesson, handleVideo,
+import {Button, Progress, Tooltip} from "antd"
+import {CloseCircleFilled} from '@ant-design/icons'
+const LessonCreateForm = ({handleCreateLesson, handleVideo, handleVideoRemove,
     values, setValues, 
     uploading, setUpLoading,
+    progress,
     uploadButtonText, setUploadButtonText}) => {
     return (
         <div className="container pt-3">
@@ -22,28 +24,47 @@ const LessonCreateForm = ({handleCreateLesson, handleVideo,
                 placeholder="Content">
                 </textarea>
                 {/* upload video */}
-                <div className="form-row">
+                <div className="form-row ">
                     <div className="col">
-                        <div className="form-group">
-                            <label className="btn btn-outline-secondary btn-block text-left test">
-                             {uploadButtonText}                                
-                            <input 
-                                type="file" 
-                                name="video" 
-                                size="large"
-                                onChange={handleVideo} 
-                                accept="video/*" 
-                                hidden/>
-                            </label>
+                        <div className="form-group" >
+                           
                         </div>
                     </div>
                 </div>
+                <div className="d-flex justify-content-center">
+                    <label className="btn btn-outline-secondary btn-block text-left mt-3 test ">
+                        {uploadButtonText}                                
+                        <input 
+                        type="file" 
+                        name="video" 
+                        size="large"
+                        onChange={handleVideo} 
+                        accept="video/*" 
+                        hidden
+                        />
+                    </label>
+                    {
+                    // !uploading && values.video.Location && 
+                    (
+                        <Tooltip title="Remove">
+                            <span onClick = {handleVideoRemove} className="pt-1 pl-3">
+                                <CloseCircleFilled className="text-danger d-flex justify-content-center pt-4 pointer" />
+                            </span>
+                        </Tooltip>
+                    )}
+                </div>
+                {/* check progress upload video */}
+                {progress > 0 && <Progress
+                 className="d-flex justify-content-center pt-2"
+                  percent={progress}
+                  steps={10} />}
                 <Button 
                 onClick={handleCreateLesson} 
-                className="col mt-6" 
+                className="col mt-3" 
                 size="large"
                 type="primary"
                 loading={uploading}
+                style={{width: "100%"}}
                 shape="round">
                     Create Lesson
                 </Button>

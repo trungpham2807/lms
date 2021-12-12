@@ -14,48 +14,46 @@ import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   let navigate = useNavigate();
-  // global state
-  const {state, dispatch} = useContext(Context)
-  const {user} = state;
-
-  // protected route render only log in (whenever user change -> run)
-  useEffect(() => {
-    if(user !== null)
-    navigate("/")
-  }, [user])
-
-  // internal state
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-
-  // handle loading spinner
+  const [email, setEmail] = useState("admin@gmail.com");
+  const [password, setPassword] = useState("admin1@");
   const [loading, setLoading] = useState(false);
-  // handle submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try{
-      setLoading(true);
-      const {data} = await axios.post(`http://localhost:8000/api/auth/login`, { 
-        email, password
-      })
-      toast.success("Login successfully")
-      // dispatch data - context provider 
-      dispatch({
-        type: "LOGIN",
-        payload: data,
-      })
-      // save data in local storage
-      window.localStorage.setItem('user', JSON.stringify(data))
-      // redirect homepage after login success
-      navigate("/")
+  // internal state
+// state
+const {
+  state: { user },
+  dispatch,
+} = useContext(Context);
+// const { user } = state;
 
-      setLoading(false);
-    }catch(err){
-      toast.error(err.response.data)
-      setLoading(false)
-    }
-   
+
+useEffect(() => {
+  if (user !== null){navigate("/")};
+}, [user]);
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  // console.table({ name, email, password });
+  try {
+    setLoading(true);
+    const { data } = await axios.post(`http://localhost:8000/api/auth/login`, {
+      email,
+      password,
+    });
+    // console.log("LOGIN RESPONSE", data);
+    dispatch({
+      type: "LOGIN",
+      payload: data,
+    });
+    // save in local storage
+    window.localStorage.setItem("user", JSON.stringify(data));
+    // redirect user if login success
+    navigate("/user");
+    // setLoading(false);
+  } catch (err) {
+    toast(err.response.data);
+    setLoading(false);
   }
+};
   return (
     <>
     <h1 className="jumbotron text-center bg-primary square">Login Page</h1>

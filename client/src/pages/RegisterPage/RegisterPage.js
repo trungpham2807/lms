@@ -14,8 +14,10 @@ import {Context} from "../../context/index"
 const RegisterPage = () => {
   let navigate = useNavigate();
   // global state
-  const {state, dispatch} = useContext(Context)
-  const {user} = state;
+  const {
+    state: { user },
+  } = useContext(Context);
+
 
   // protected route render homepage when run register page only log in (whenever user change -> run)
   useEffect(() => {
@@ -37,6 +39,9 @@ const RegisterPage = () => {
         name, email, password
       })
       toast.success("Register successfully")
+      setName("");
+      setEmail("");
+      setPassword("");
       setLoading(false);
     }catch(err){
       toast.error(err.response.data)

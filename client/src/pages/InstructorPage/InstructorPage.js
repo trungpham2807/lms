@@ -5,7 +5,11 @@ import {Avatar, Button, Modal } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import LessonCreateForm from "../../components/forms/LessonCreateForm"
 import {toast} from "react-toastify"
+import {useContext} from "react"
+import {Context} from "../../context/index"
 const InstructorPage = () => {
+    const {state : {user}, dispatch} = useContext(Context)
+
     const [courses, setCourses] = useState([]);
     // lesson
     const [visible, setVisible] = useState(false);
@@ -58,6 +62,22 @@ const InstructorPage = () => {
         }
 
     }
+    // handle remove video
+    const handleVideoRemove = async () => {
+        try{
+            setUploading(true);
+            const {data} = await axios.post("http://localhost:8000/api/course/video-remove", values.video)
+            console.log("dataaaaaaaaa", data)
+            setValues({...values, video: {}})
+            setUploading(false);
+            setProgress(0); 
+            setUploadButtonText("Upload Another Video")
+        }catch(err){
+            console.log(err);
+            setUploading(false);
+            toast("video remove failed")
+        }
+    }
     const loadCourses = async () => {
         const {data} = await axios.get("http://localhost:8000/api/instructor/instructor-courses")
         console.log(data)
@@ -69,7 +89,9 @@ const InstructorPage = () => {
     return (
         <div>
             <h1 className="jumbotron text-center square">Instructor Dashboard</h1>
-            {courses && courses.map(course => (
+            {
+            // courses && 
+            courses.map(course => (
                 <>
                 <div className="media pt-2">
                     <Avatar size={80} src = {course.image ? course.image.Location : "/course.jpeg"} />
@@ -84,7 +106,8 @@ const InstructorPage = () => {
 
                 </div>
                 </>
-            ))}
+            ))
+            }
             {/* note for button lesson -> move to {course} */}
             <div className="row">
                 <Button 
@@ -114,6 +137,8 @@ const InstructorPage = () => {
                 uploading={uploading}
                 uploadButtonText={uploadButtonText}
                 handleVideo={handleVideo}
+                handleVideoRemove={handleVideoRemove}
+                progress={progress}
 
               />
             </Modal>

@@ -4,11 +4,12 @@ const {
     register,
     login,
     logout,
-    currentUser
+    currentUser,
+    // sendTestEmail
 } = require('../controllers/auth.controller') 
 
 // middleware
-const {loginRequired} = require("../middlewares/authentication")
+const authMiddleware = require("../middlewares/index")
 
 // Register route
 router.post("/register", register)
@@ -16,7 +17,12 @@ router.post("/register", register)
 router.post("/login", login)
 
 // current user
-router.get('/current-user', loginRequired, currentUser )
+router.get('/current-user', 
+authMiddleware.loginRequired,
+ currentUser )
 //logout
 router.get("/logout", logout)
+// reset password
+// router.get("/send-email", sendTestEmail)
+
 module.exports = router;

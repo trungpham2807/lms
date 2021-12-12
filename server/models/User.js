@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const {Schema} = mongoose;
+const {ObjectId} = Schema;
+const jwt = require("jsonwebtoken")
 
 const userSchema = new Schema(
     {
@@ -14,13 +16,26 @@ const userSchema = new Schema(
         avatar: {type: String, default: "https://i.pinimg.com/originals/26/05/a3/2605a399d825cbc457479fa2df2bf953.jpg"
         },
         role: {type: [String], default: ["subscriber"] , enum: ["subscriber", "instructor", "admin"]},
-        seller_id: "",
-        accountSeller: {},
-        accountSession: {},
-        googleId: {type: String, default: ""}
+        stripe_account_id: "",
+        stripe_seller: {},
+        stripeSession: {},
+        googleId: {type: String, default: ""},
+        courses: [{type: ObjectId, ref:"Course"}]
     }, {
         timestamps: true,
     }
 )
+// userSchema.methods.comparePassword = async function (password) {
+//     return bcrypt.compare(password, this.password, function (_, isMatch) {
+//       return isMatch;
+//     });
+//   };
+  
+  userSchema.methods.generateToken = async function () {
+    const accessToken = await jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
+      expiresIn: "365d",
+    });
+    return accessToken;
+  };
 const User = mongoose.model("User", userSchema)
 module.exports = User;
