@@ -18,7 +18,7 @@ router.post("/login", login)
 
 // current user
 router.get('/current-user', 
-authMiddleware.loginRequired,
+authMiddleware.loginRequired, 
  currentUser )
 //logout
 router.get("/logout", logout)

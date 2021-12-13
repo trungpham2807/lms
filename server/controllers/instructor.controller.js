@@ -6,10 +6,11 @@ const instructorController = {};
 
 instructorController.getInstructorCourse = async (req, res) => {
     try{
-        const courses = await Course.find({instructor : req.user._id})
+        const courses = await Course.find({instructor : req.userId})
         .sort({createAt: -1})
         .exec();
         res.json(courses)
+        console.log("hahaha", courses)
         // res.status(200).send("Success get course")
     }catch(err){
         console.log(err)
@@ -22,7 +23,7 @@ instructorController.getInstructorCourse = async (req, res) => {
 instructorController.becomeInstructor = async (req, res) => {
     try {
         // 1. find user from db
-        const user = await User.findById(req.user._id).exec();
+        const user = await User.findById(req.userId).exec();
         console.log(user, "user")
         // 2. if user dont have stripe_account_id yet, then create new
         if (!user.stripe_account_id) {

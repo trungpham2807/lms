@@ -5,6 +5,7 @@ import {Link} from "react-router-dom"
 import "./NavBar.css"
 import {toast} from "react-toastify"
 import {useNavigate} from "react-router-dom"
+import api from "../redux/api"
 import {
     AppstoreOutlined,
     LoginOutlined,
@@ -97,7 +98,9 @@ const {state : {user}, dispatch} = useContext(Context)
             {/* if user already login -> show submenu dashboard with: Logout, login, register */}
             {user !== null && (
                 <>
-                <SubMenu icon = {<SmileOutlined/>} title={user && user.name} className="float-right">
+                <SubMenu icon = {<SmileOutlined/>} 
+                // title={user && user.user.name}
+                 className="float-right">
                     <ItemGroup>
                         <Item key="/user">
                             <Link to="/user">

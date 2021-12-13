@@ -134,7 +134,7 @@ check password correct: take user pass -> hash -> compare with hash saved -> gen
       });
 
       // send user as json response
-      res.json(user);
+      res.json({user, token});
     } catch (err) {
       console.log(err);
       return res.status(400).send("Error. Try again.");
@@ -159,9 +159,10 @@ check password correct: take user pass -> hash -> compare with hash saved -> gen
   };
   authController.currentUser = async (req, res) => {
     try {
-      const user = await User.findById(req.user._id).select("-password").exec();
+      const user = await User.findById(req.userId).select("-password").exec();
       console.log("CURRENT_USER", user);
-      return res.json({ ok: true });
+      // return res.json({ ok: true });
+      return res.json(user)
     } catch (err) {
       console.log(err);
     }

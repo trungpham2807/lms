@@ -8,7 +8,7 @@ import CircleLoader from "react-spinners/CircleLoader";
 import {Link} from "react-router-dom"
 import {Context} from "../../context/index"
 import { useNavigate } from "react-router-dom";
-
+import api from "../../redux/api"
 // require('dotenv').config()
 // const abc = process.env.PUBLIC_API;
 
@@ -35,17 +35,22 @@ const handleSubmit = async (e) => {
   // console.table({ name, email, password });
   try {
     setLoading(true);
-    const { data } = await axios.post(`http://localhost:8000/api/auth/login`, {
+    const { data } = await api.post(`http://localhost:8000/api/auth/login`, {
       email,
       password,
     });
+    axios.defaults.headers.common['authorization'] = data.token;
+
+    console.log("dataaaaaaaaaaaa", data)
     // console.log("LOGIN RESPONSE", data);
     dispatch({
       type: "LOGIN",
       payload: data,
     });
     // save in local storage
-    window.localStorage.setItem("user", JSON.stringify(data));
+    window.localStorage.setItem("token", data.token);
+    // window.localStorage.setItem("user", data.user);
+
     // redirect user if login success
     navigate("/user");
     // setLoading(false);

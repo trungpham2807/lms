@@ -43,9 +43,6 @@ app.use(bodyParser.json());
 const indexRouter = require("./routes/index")
 app.use("/api", indexRouter);
 
-// app.get("http:localhost:8000/api/csrf-token", (req, res) => {
-//   res.json({ csrfToken: req.csrfToken() });
-// });
 // port
 
 app.listen(process.env.PORT || 8000, ()=>{

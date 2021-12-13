@@ -11,6 +11,7 @@ const InstructorPage = () => {
     const {state : {user}, dispatch} = useContext(Context)
 
     const [courses, setCourses] = useState([]);
+    console.log("hhuhuhu", courses)
     // lesson
     const [visible, setVisible] = useState(false);
     const [values, setValues] = useState({
@@ -80,7 +81,8 @@ const InstructorPage = () => {
     }
     const loadCourses = async () => {
         const {data} = await axios.get("http://localhost:8000/api/instructor/instructor-courses")
-        console.log(data)
+        console.log("data load courses" , data)
+        setCourses(data)
     }
     useEffect(() => {
         loadCourses()
@@ -94,7 +96,9 @@ const InstructorPage = () => {
             courses.map(course => (
                 <>
                 <div className="media pt-2">
-                    <Avatar size={80} src = {course.image ? course.image.Location : "/course.jpeg"} />
+                    {course.name}
+                    {course.image?.Location}
+                    <Avatar size={80} src = {course.image ? course.image?.Location : "/course.jpeg"} />
                 </div>
                 <div className="media-body pl-2">
                     <div className="row">

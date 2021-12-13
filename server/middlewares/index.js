@@ -2,17 +2,54 @@
 // // verify if token valid -> send req to backend (browser will include cookie token in header auto*/
 const User = require("../models/User")
 const Course = require("../models/Course")
-const jwt = require('express-jwt');
+// const jwt = require('express-jwt');
+const jwt = require("jsonwebtoken")
 const authMiddleware = {};
 // login required middle ware
-authMiddleware.loginRequired = jwt({
-    // getToken: (req, res) => req.cookies.token,
-    secret: process.env.JWT_SECRET,
-    algorithms: ["HS256"],
-    function(req, res) {
-        req.cookies.token
-        res.sendStatus(200);}
-  });
+// authMiddleware.getToken = jwt({
+//     secret: Buffer.from("hello","base64"),
+//     algorithms: ['RS256'],
+//     credentialsRequired: false,
+//     getToken: function fromHeaderOrQuerystring (req, res) {
+//         console.log("herere")
+//       if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+//           console.log("token", req.headers.authorization.split(' ')[1])
+//           return req.headers.authorization.split(' ')[1];
+//       } else if (req.query && req.query.token) {
+//         return req.query.token;
+//       }
+//       return null 
+//     }           
+// });
+authMiddleware.loginRequired = (req, res, next) => {
+        // console.log("err", req.token)
+        // console.log("err", process.env.JWT_SECRET)
+        // if (!req.token){
+        //     return res.status(400).send("Token required.");
+        // }
+        try {
+            const tokenString = req.headers.authorization;
+            console.log("hghgh", req.headers)
+            if (!tokenString)
+              return next(new Error("401 - Login required"));
+            const token = tokenString.replace("Bearer ", "");
+            jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+              if (err) {
+                if (err.name === "TokenExpiredError") {
+                  return next(new Error("401 - Token expired"));
+                } else { 
+                    console.log("err", err)
+                    return next(new Error("401 - Token invalid"));
+                }
+              }
+              req.userId = payload._id;
+            });
+            next();
+          } catch (error) {
+            next(error);
+          }
+        };
+
 
 // authMiddleware.loginRequired = (req, res) => {
 

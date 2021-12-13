@@ -32,7 +32,7 @@ courseController.uploadImage = async (req, res) => {
             // generate random name and give image type
             Key: `${nanoid()}.${type}`,
             Body: base64Data,
-            // ACL: "public-read",
+            ACL: "public-read",
             ContentEncoding: "base64",
             ContentType: `image/${type}`
         }
