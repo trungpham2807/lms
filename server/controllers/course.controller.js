@@ -68,6 +68,7 @@ courseController.removeImage = async (req, res) => {
 }
 // create Course 
 courseController.createCourse = async (req, res) => {
+    // console.log("req", req)
     let course;
     try{
         const alreadyExist = await Course.findOne({
@@ -80,8 +81,9 @@ courseController.createCourse = async (req, res) => {
             instructor: req.userId,
             ...req.body,
         })
-        // res.json(course);
-        res.status(200).send("Course create successfully")
+        console.log("gfg", course)
+        res.json(course);
+        // res.status(200).send("Course create successfully")
     }catch(err){
         return res.status(400).send("Course create failed")
     }
@@ -90,12 +92,32 @@ courseController.createCourse = async (req, res) => {
 // get course 
 courseController.getCourse = async (req, res) => {
     try{
-        console.log("haha")
+        // console.log("param", req.params)
+        const course = await Course.findOne({slug: req.params.slug})
+                // console.log("course", course)
+            .populate("instructor", "_id name")
+            .exec();
+        //     // console.log("course getCourse", course)
+            res.json(course);
     }catch(err){
         console.log(err)
     }
 }
-
+courseController.editCourse = async (req, res) => {
+    try{
+        const {slug} = req.params;
+        const course = await Course.findOne({slug}).exec()
+        // console.log("Course found", course)
+        if(req.userId != course.instructor){
+            return res.status(400).send("Unauthorized")
+        }
+        const updated = await Course.findOneAndUpdate({slug}, req.body, {new: true}).exec()
+        res.json(updated)
+    }catch(err){
+        console.log(err, "what sup")
+        return res.status(400).send(err.message)
+    }
+}
 // Lesson controller
 courseController.uploadVideo = async (req, res) => {
     try{
@@ -150,4 +172,29 @@ courseController.removeVideo = async (req, res) => {
         console.log(err);
       }
 }
+// lesson
+courseController.addLesson = async (req, res) => {
+    try {
+        const { slug, instructorId } = req.params;
+        const { title, content, video } = req.body;
+    
+        if (req.user._id != instructorId) {
+          return res.status(400).send("Unauthorized");
+        }
+    
+        const updated = await Course.findOneAndUpdate(
+          { slug },
+          {
+            $push: { lessons: { title, content, video, slug: slugify(title) } },
+          },
+          { new: true }
+        )
+          .populate("instructor", "_id name")
+          .exec();
+        res.json(updated);
+      } catch (err) {
+        console.log(err);
+        return res.status(400).send("Add lesson failed");
+      }
+    };
 module.exports = courseController;

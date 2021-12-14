@@ -2,12 +2,15 @@ import { useContext, useEffect } from "react";
 import { Context } from "../../context";
 import { SyncOutlined } from "@ant-design/icons";
 import axios from "axios";
-
+import {useDispatch, useSelector} from "react-redux"
+import api from "../../redux/api"
+import {authActions} from "../../redux/actions/auth.action"
 const StripePage = () => {
-  const {
-    state: { user },
-    dispatch,
-  } = useContext(Context);
+  const dispatch = useDispatch()
+  const {user} = useSelector(state => state.auth)
+  useEffect(() => {
+    dispatch(authActions.getCurrentUser())
+  }, []);
 
   useEffect(() => {
     if (user) {

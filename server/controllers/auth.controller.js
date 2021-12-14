@@ -124,7 +124,7 @@ check password correct: take user pass -> hash -> compare with hash saved -> gen
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
         expiresIn: "7d",
       });
-      console.log("tokennnnnnnn", token)
+      // console.log("tokennnnnnnn", token)
       // return user and token to client, exclude hashed password
       user.password = undefined;
       // send token in cookie
@@ -160,7 +160,7 @@ check password correct: take user pass -> hash -> compare with hash saved -> gen
   authController.currentUser = async (req, res) => {
     try {
       const user = await User.findById(req.userId).select("-password").exec();
-      console.log("CURRENT_USER", user);
+      // console.log("CURRENT_USER", user);
       // return res.json({ ok: true });
       return res.json(user)
     } catch (err) {

@@ -29,10 +29,11 @@ authMiddleware.loginRequired = (req, res, next) => {
         // }
         try {
             const tokenString = req.headers.authorization;
-            console.log("hghgh", req.headers)
+            // console.log("tokenString", tokenString)
             if (!tokenString)
               return next(new Error("401 - Login required"));
             const token = tokenString.replace("Bearer ", "");
+            // console.log("token", token)
             jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
               if (err) {
                 if (err.name === "TokenExpiredError") {
@@ -58,7 +59,7 @@ authMiddleware.loginRequired = (req, res, next) => {
 // check if instructor or not
 authMiddleware.isInstructor = async (req, res, next) => {
     try{
-        const user = await User.findById(req.user._id).exec();
+        const user = await User.findById(req.userId).exec();
         if(!user.role.includes("Instructor")){
             return res.sendStatus(403);
         }else{

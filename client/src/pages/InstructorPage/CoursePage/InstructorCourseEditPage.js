@@ -4,10 +4,11 @@ import axios from "axios"
 import  Resizer from "react-image-file-resizer"
 import CourseCreateForm from "../../../components/forms/CourseCreateForm"
 import {toast} from "react-toastify"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux"
 import {authActions} from "../../../redux/actions/auth.action"
-const CourseCreate = () => {
+import InstructorRoute from "../../../components/routes/InstructorRoute"
+const InstructorCourseEditPage = () => {
     const dispatch = useDispatch()
     const {user} = useSelector(state => state.auth)
     console.log("userrrrr", user)
@@ -28,6 +29,16 @@ const CourseCreate = () => {
     const [preview, setPreview] = useState('')
     const [uploadButton, setUploadButton] = useState('Upload Image')
     // using different name properties instead of write every single on change -> [] dynamic
+    
+    const params = useParams();
+    const {slug} = params;
+    useEffect(() => {
+        loadCourse()
+    }, [])
+    const loadCourse = async () => {
+        const {data} = await axios.get(`http://localhost:8000/api/course/${slug}`)
+        setValues(data)
+    }
     const handleChange = (e) => {
         
         setValues({...values, [e.target.name]: e.target.value})
@@ -87,20 +98,20 @@ const CourseCreate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
-            const {data} = await axios.post("http://localhost:8000/api/course", {
+            const {data} = await axios.put(`http://localhost:8000/api/course/${slug}`, {
                 ...values,
                 image,
             })
-            toast.success("Successfully create course")
-            navigate("/instructor")
+            toast.success("Course updated")
         }catch(err){
-            toast(err.response.data)
+            toast(err)
         }
     }
 
     return (
-        <>
-        <h1 className="jumbotron text-center square"> Create Course</h1>
+        <InstructorRoute>
+        <h1 className="jumbotron text-center square"> Edit Course</h1>
+        {/* {JSON.stringify(values)} */}
         <div className="pt-3 pb-3">
             <CourseCreateForm 
             handleSubmit={handleSubmit}
@@ -112,11 +123,12 @@ const CourseCreate = () => {
             preview={preview}
             uploadButton = {uploadButton}
             setUploadButton={setUploadButton}
+            editPage={true}
             />
             {/* <pre>{JSON.stringify(values, null, 4)}</pre>
             <pre>image: {JSON.stringify(image, null, 4)} </pre> */}
         </div>
-        </>
+        </InstructorRoute>
     )
 }
-export default CourseCreate;
+export default InstructorCourseEditPage;

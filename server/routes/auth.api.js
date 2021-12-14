@@ -23,6 +23,7 @@ authMiddleware.loginRequired,
 //logout
 router.get("/logout", logout)
 // reset password
-// router.get("/send-email", sendTestEmail)
+// router.post("/forgot-password", forgotPassword)
+// router.post("/reset-password", resetPassword)
 
 module.exports = router;

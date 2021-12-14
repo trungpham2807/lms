@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const {Schema} = mongoose;
-const {ObjectId} = Schema;
+// const {ObjectId} = Schema;
 const jwt = require("jsonwebtoken")
 
 const userSchema = new Schema(
@@ -20,16 +20,12 @@ const userSchema = new Schema(
         stripe_seller: {},
         stripeSession: {},
         googleId: {type: String, default: ""},
-        courses: [{type: ObjectId, ref:"Course"}]
+        courses: {type: Schema.Types.ObjectId, ref:"Course"}
     }, {
         timestamps: true,
     }
 )
-// userSchema.methods.comparePassword = async function (password) {
-//     return bcrypt.compare(password, this.password, function (_, isMatch) {
-//       return isMatch;
-//     });
-//   };
+
   
   // userSchema.methods.generateToken = async function () {
   //   const accessToken = await jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {

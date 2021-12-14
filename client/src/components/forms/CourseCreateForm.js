@@ -13,7 +13,8 @@ const CourseCreateForm = ({handleSubmit,
     setValues,
     preview,
     uploadButton,
-    setUploadButton}) => {
+    setUploadButton,
+editPage = false}) => {
     const priceArray = []
     for (let i=6.99; i<=99.99; i++){
         priceArray.push(<Option key={i.toFixed(2)}>${i.toFixed(2)}</Option>)
@@ -103,6 +104,10 @@ const CourseCreateForm = ({handleSubmit,
                             <Avatar shape="square" size={200} src={preview} />
                         </Badge>
                     )}
+
+                    {/* check edit page is true */}
+                    {editPage && <Avatar shape="square" size={200} src={values.image?.Location} />
+ }
                 </div>
                 
                 {/* Upload course */}

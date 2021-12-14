@@ -12,4 +12,6 @@ router.get("/instructor-courses",
 router.post("/become-instructor", 
 // authMiddleware.loginRequired,
  becomeInstructor)
+//  get account status
+
 module.exports = router;

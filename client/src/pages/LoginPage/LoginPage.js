@@ -6,12 +6,13 @@ import axios from 'axios'
 import {toast} from "react-toastify"
 import CircleLoader from "react-spinners/CircleLoader";
 import {Link} from "react-router-dom"
-import {Context} from "../../context/index"
+// import {Context} from "../../context/index"
 import { useNavigate } from "react-router-dom";
 import api from "../../redux/api"
 // require('dotenv').config()
 // const abc = process.env.PUBLIC_API;
-
+import {useDispatch} from "react-redux"
+import {authActions} from "../../redux/actions/auth.action"
 const LoginPage = () => {
   let navigate = useNavigate();
   const [email, setEmail] = useState("admin@gmail.com");
@@ -19,45 +20,46 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   // internal state
 // state
-const {
-  state: { user },
-  dispatch,
-} = useContext(Context);
-// const { user } = state;
+// const {
+//   state: { user },
+//   dispatch,
+// } = useContext(Context);
 
 
-useEffect(() => {
-  if (user !== null){navigate("/")};
-}, [user]);
-
+// useEffect(() => {
+//   if (user !== null){navigate("/")};
+// }, [user]);
+const dispatch = useDispatch()
 const handleSubmit = async (e) => {
   e.preventDefault();
+  dispatch(authActions.loginRequest(email, password))
+  navigate("/user");
   // console.table({ name, email, password });
-  try {
-    setLoading(true);
-    const { data } = await api.post(`http://localhost:8000/api/auth/login`, {
-      email,
-      password,
-    });
-    axios.defaults.headers.common['authorization'] = data.token;
+  // try {
+  //   setLoading(true);
+  //   const { data } = await api.post(`http://localhost:8000/api/auth/login`, {
+  //     email,
+  //     password,
+  //   });
+  //   axios.defaults.headers.common['authorization'] = data.token;
 
-    console.log("dataaaaaaaaaaaa", data)
-    // console.log("LOGIN RESPONSE", data);
-    dispatch({
-      type: "LOGIN",
-      payload: data,
-    });
-    // save in local storage
-    window.localStorage.setItem("token", data.token);
-    // window.localStorage.setItem("user", data.user);
+  //   console.log("dataaaaaaaaaaaa", data)
+  //   // console.log("LOGIN RESPONSE", data);
+  //   dispatch({
+  //     type: "LOGIN",
+  //     payload: data,
+  //   });
+  //   // save in local storage
+  //   window.localStorage.setItem("token", data.token);
+  //   // window.localStorage.setItem("user", data.user);
 
-    // redirect user if login success
-    navigate("/user");
-    // setLoading(false);
-  } catch (err) {
-    toast(err.response.data);
-    setLoading(false);
-  }
+  //   // redirect user if login success
+  //   navigate("/user");
+  //   // setLoading(false);
+  // } catch (err) {
+  //   toast(err.response.data);
+  //   setLoading(false);
+  // }
 };
   return (
     <>

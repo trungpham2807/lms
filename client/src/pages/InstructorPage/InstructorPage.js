@@ -1,15 +1,19 @@
 import React from 'react'
 import {useState, useEffect} from "react"
 import axios from "axios"
-import {Avatar, Button, Modal } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import {Avatar, Button, Modal,Tooltip } from 'antd';
+import { UploadOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import LessonCreateForm from "../../components/forms/LessonCreateForm"
 import {toast} from "react-toastify"
-import {useContext} from "react"
-import {Context} from "../../context/index"
+import InstructorRoute from "../../components/routes/InstructorRoute"
+import {Link} from "react-router-dom"
+import {useDispatch, useSelector} from "react-redux"
+import api from "../../redux/api"
+import {authActions} from "../../redux/actions/auth.action"
+// import {Context} from "../../context/index"
 const InstructorPage = () => {
-    const {state : {user}, dispatch} = useContext(Context)
-
+    // const {state : {user}, dispatch} = useContext(Context)
+    
     const [courses, setCourses] = useState([]);
     console.log("hhuhuhu", courses)
     // lesson
@@ -46,7 +50,7 @@ const InstructorPage = () => {
             const videoData = new FormData()
             videoData.append('video', file)
             // save progress bar -> send video as form data to backend
-            const {data} = await axios.post("http://localhost:8000/api/course/video-upload", videoData, {
+            const {data} = await api.post("http://localhost:8000/api/course/video-upload", videoData, {
                 onUploadProgress: (e) => {
                     setProgress(Math.round(100 * e.loaded) / e.total)
                 }
@@ -67,7 +71,7 @@ const InstructorPage = () => {
     const handleVideoRemove = async () => {
         try{
             setUploading(true);
-            const {data} = await axios.post("http://localhost:8000/api/course/video-remove", values.video)
+            const {data} = await api.post("http://localhost:8000/api/course/video-remove", values.video)
             console.log("dataaaaaaaaa", data)
             setValues({...values, video: {}})
             setUploading(false);
@@ -80,7 +84,7 @@ const InstructorPage = () => {
         }
     }
     const loadCourses = async () => {
-        const {data} = await axios.get("http://localhost:8000/api/instructor/instructor-courses")
+        const {data} = await api.get("http://localhost:8000/api/instructor/instructor-courses")
         console.log("data load courses" , data)
         setCourses(data)
     }
@@ -89,6 +93,7 @@ const InstructorPage = () => {
     }, [])
 
     return (
+        <InstructorRoute>
         <div>
             <h1 className="jumbotron text-center square">Instructor Dashboard</h1>
             {
@@ -96,20 +101,56 @@ const InstructorPage = () => {
             courses.map(course => (
                 <>
                 <div className="media pt-2">
-                    {course.name}
-                    {course.image?.Location}
-                    <Avatar size={80} src = {course.image ? course.image?.Location : "/course.jpeg"} />
-                </div>
-                <div className="media-body pl-2">
+                  <Avatar
+                    size={80}
+                    src={course.image ? course.image.Location : "https://i.pinimg.com/originals/71/72/80/717280e6100325a98ebbe9cd47e0fb5d.jpg"}
+                  />
+    
+                  <div className="media-body pl-2">
                     <div className="row">
-                        <div classname="col">
-                            hello 
-                        </div>
-
+                      <div className="col">
+                        <Link
+                          to={"/instructor/course/view/" + course.slug}
+                          className="pointer"
+                        >
+                          <div className="mt-2 text-primary">
+                            <h5 className="pt-2">{course.name}</h5>
+                          </div>
+                        </Link>
+                        <p style={{ marginTop: "-10px" }}>
+                          {course.lessons.length} Lessons
+                        </p>
+    
+                        {course.lessons.length < 5 ? (
+                          <p style={{ marginTop: "-15px", fontSize: "10px" }} className="text-warning">
+                            At least 5 lessons are required to publish a course
+                          </p>
+                        ) : course.published ? (
+                          <p style={{ marginTop: "-15px", fontSize: "10px" }} className="text-success">
+                            Your course is live in the marketplace
+                          </p>
+                        ) : (
+                          <p style={{ marginTop: "-15px", fontSize: "10px" }} className="text-success">
+                            Your course is ready to be published
+                          </p>
+                        )}
+                      </div>
+    
+                      <div className="col-md-3 mt-3 text-center">
+                        {course.published ? (
+                          <Tooltip title="Published">
+                            <CheckCircleOutlined className="h5 pointer text-success" />
+                          </Tooltip>
+                        ) : (
+                          <Tooltip title="Unpublished">
+                            <CloseCircleOutlined className="h5 pointer text-warning" />
+                          </Tooltip>
+                        )}
+                      </div>
                     </div>
-
+                  </div>
                 </div>
-                </>
+              </>
             ))
             }
             {/* note for button lesson -> move to {course} */}
@@ -147,6 +188,7 @@ const InstructorPage = () => {
               />
             </Modal>
         </div>
+        </InstructorRoute>
     )
 }
 

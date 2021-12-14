@@ -1,12 +1,12 @@
-import * as types from "../constants/auth.constants";
+import * as types from "../constants/auth.constant";
 
 const isAuthenticated = !!localStorage.getItem("accessToken");
 const initialState = {
   loading: false,
   isAuthenticated,
   accessToken: localStorage.getItem("accessToken"),
-  user: {},
-};
+  user: null,
+}
 
 const authReducer = (state = initialState, action) => {
   const { type, payload } = action;
@@ -23,7 +23,6 @@ const authReducer = (state = initialState, action) => {
       };
 
     case types.LOGIN_SUCCESS:
-      localStorage.setItem("accessToken", payload.accessToken);
       return {
         ...state,
         loading: false,

@@ -17,10 +17,14 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 // test
 import CourseCreate from "./pages/InstructorPage/CoursePage/CourseCreate"
 import InstructorPage from "./pages/InstructorPage/InstructorPage"
+import InstructorCourseViewPage from "./pages/InstructorPage/CoursePage/InstructorCourseViewPage"
+import InstructorCourseEditPage from "./pages/InstructorPage/CoursePage/InstructorCourseEditPage"
 import UserPage from "./pages/UserPage/UserPage"
 import BecomeInstructor from "./pages/UserPage/BecomeIntructor"
 import StripePage from "./pages/StripePage/StripePage"
+
 function App() {
+
   return (
     <div className="App">
       <Router>
@@ -34,6 +38,8 @@ function App() {
           {/* test route */}
           <Route path="/instructor/course/create" element={<CourseCreate/>}  />
           <Route path="/instructor" element={<InstructorPage />} />
+          <Route path="/instructor/course/view/:slug" element={<InstructorCourseViewPage />} />
+          <Route path="/instructor/course/edit/:slug" element={<InstructorCourseEditPage />} />
           <Route path="/user" element={<UserPage />} />
           <Route path="/user/become-instructor" element={<BecomeInstructor />} />
           <Route path="instructor/get-account-status" element={<StripePage/>} />

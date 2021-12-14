@@ -1,10 +1,25 @@
 const mongoose = require("mongoose");
 // const User = require("./User")
 const {Schema} = mongoose;
-const {ObjectId} = Schema;
+// const {ObjectId} = Schema;
 const lessonSchema = new Schema(
     {
-
+        title: {
+            type: String, 
+            trim: true,
+            required: true
+        },
+        slug: {
+            type: String,
+            lowercase: true,
+        },
+        content: {
+            type: {},
+        },
+        video: {},
+        free_preview: {type: Boolean, default: false}
+    }, {
+        timestamps: true,
     }
 )
 
@@ -28,7 +43,7 @@ const courseSchema = new Schema(
             default: false
         },
         paid: {type: Boolean, default: false},
-        instructor: {type: ObjectId, ref: "User", 
+        instructor: {type: Schema.Types.ObjectId, ref: "User", 
         // required: true
     },
         lessons: [lessonSchema],

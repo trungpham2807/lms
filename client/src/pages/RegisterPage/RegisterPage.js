@@ -6,7 +6,7 @@ import axios from 'axios'
 import {toast} from "react-toastify"
 import CircleLoader from "react-spinners/CircleLoader";
 import {Link, useNavigate} from "react-router-dom"
-import {Context} from "../../context/index"
+// import {Context} from "../../context/index"
 
 // require('dotenv').config()
 // const abc = process.env.PUBLIC_API;
@@ -14,16 +14,16 @@ import {Context} from "../../context/index"
 const RegisterPage = () => {
   let navigate = useNavigate();
   // global state
-  const {
-    state: { user },
-  } = useContext(Context);
+  // const {
+  //   state: { user },
+  // } = useContext(Context);
 
 
   // protected route render homepage when run register page only log in (whenever user change -> run)
-  useEffect(() => {
-    if(user !== null)
-    navigate("/")
-  }, [user])
+  // useEffect(() => {
+  //   if(user !== null)
+  //   navigate("/")
+  // }, [user])
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");

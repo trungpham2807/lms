@@ -24,7 +24,7 @@ instructorController.becomeInstructor = async (req, res) => {
     try {
         // 1. find user from db
         const user = await User.findById(req.userId).exec();
-        console.log(user, "user")
+        console.log("user become instructor", user)
         // 2. if user dont have stripe_account_id yet, then create new
         if (!user.stripe_account_id) {
           const account = await stripe.accounts.create({ type: "express" });

@@ -1,16 +1,24 @@
 import React from 'react'
-import {useContext, useState} from "react"
+import {useState, useEffect} from "react"
 import axios from "axios"
-import {Context} from "../../context/index"
+// import {Context} from "../../context/index"
 import {Button} from "antd"
 import {SettingOutlined, UserSwitchOutlined, LoadingOutlined} from "@ant-design/icons"
 import {toast} from "react-toastify"
 import {useNavigate} from "react-router-dom"
+import {useDispatch, useSelector} from "react-redux"
+import api from "../../redux/api"
+import {authActions} from "../../redux/actions/auth.action"
 const BecomeIntructor = () => {
+    const dispatch = useDispatch()
+    const {user} = useSelector(state => state.auth)
+    useEffect(() => {
+      dispatch(authActions.getCurrentUser())
+    }, []);
     const navigate = useNavigate();
     // state
     const [loading, setLoading] = useState(false);
-    const {state : {user}, dispatch} = useContext(Context)
+    // const {state : {user}, dispatch} = useContext(Context)
 
 
     // become instructor
