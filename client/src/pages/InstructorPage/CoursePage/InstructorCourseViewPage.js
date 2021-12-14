@@ -8,7 +8,7 @@ import ReactMarkdown from 'react-markdown'
 import {toast} from "react-toastify"
 import api from "../../../redux/api"
 import LessonCreateForm from "../../../components/forms/LessonCreateForm"
-import { UploadOutlined, CheckCircleOutlined, CloseCircleOutlined, EditOutlined, CheckOutlined  } from '@ant-design/icons';
+import { QuestionOutlined, CloseOutlined, UploadOutlined, CheckCircleOutlined, CloseCircleOutlined, EditOutlined, CheckOutlined  } from '@ant-design/icons';
 import {useDispatch, useSelector} from "react-redux"
 import {authActions} from "../../../redux/actions/auth.action"
 import remarkGfm from 'remark-gfm'
@@ -26,7 +26,7 @@ const InstructorCourseViewPage = () => {
 
 
     const [course, setCourse] = useState([]);
-    console.log(" lesson course instructor view page", course.lessons)
+    // console.log(" lesson course instructor view page", course._id)
     // lesson
     const [visible, setVisible] = useState(false);
     const [values, setValues] = useState({
@@ -113,10 +113,34 @@ const params = useParams();
 
   const loadCourse = async () => {
     const { data } = await api.get(`http://localhost:8000/api/course/${slug}`);
-    console.log("dadadada", data)
+    // console.log("dadadada", data)
     setCourse(data);
   };
+// publish course
+const handlePublish = async (e, courseId) => {
+  try{
+    let answer = window.confirm("Do you want to publish your course")
+    const {data} = await api.put(`http://localhost:8000/api/course/publish/${courseId}`)
+    setCourse(data);
+    toast("Congrat to publish course!")
+  }catch(err){
+    toast("Course publish failed")
+  }
 
+}
+const handleUnPublish = async (e, courseId) => {
+  try{
+    let answer = window.confirm("course not available")
+    const {data} = await api.put(`http://localhost:8000/api/course/unpublish/${courseId}`)
+    setCourse(data);
+    toast("unplish course!")
+
+  }catch(err){
+    toast("Course unpublish failed")
+
+  }
+
+}
   return (
     <InstructorRoute>
       <div className="container-fluid pt-3">
@@ -146,9 +170,25 @@ const params = useParams();
                       onClick={() => navigate(`/instructor/course/edit/${slug}`)}
                       className="h5 pointer text-warning mr-4" />
                     </Tooltip>
-                    <Tooltip title="Publish">
-                      <CheckOutlined className="h5 pointer text-danger" />
+                    {/* check if lesson < 3 => cant not publish */}
+                    {course.lessons && course.lessons.length < 3 ? 
+                    (<Tooltip title="Min 3 lessons required to publish">
+                      <QuestionOutlined className="h5 pointer text-danger"/>
+                    </Tooltip>) 
+                    : course.published ? (
+                    <Tooltip title="Unpublish">
+                      <CloseOutlined 
+                      onClick={(e) => handleUnPublish(e, course._id)}
+                      className="h5 pointer text-danger" />
                     </Tooltip>
+                    ): (
+                      <Tooltip title="Publish">
+                      <CheckOutlined 
+                       onClick={(e) => handlePublish(e, course._id)}
+                      className="h5 pointer text-success" />
+                      </Tooltip>
+                    )}
+                   
                   </div>
                 </div>
               </div>

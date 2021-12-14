@@ -21,20 +21,22 @@ courseController.uploadImage = async (req, res) => {
         const {image} = req.body;
         if(!image) return res.status(400).send("Only image can be uploaded")
         // prepare image
-        const base64Data = new Buffer.from(image.replace(/^data:image\/w+;base64,/, "")
-        ,"base64" );
+        // const base64Data = new Buffer.from(image.replace(/^data:image\/w+;base64,/, "")
+        // ,"base64" );
         // console.log(base64Data, "base64data");
-        // type
-        const type = image.split(";")[0].split('/')[1];
+        // // type
+        // const type = image.split(";")[0].split('/')[1];
         // image params
         const params = {
             Bucket: "lms-trung-bucket",
             // generate random name and give image type
             Key: `${nanoid()}.${type}`,
-            Body: base64Data,
+            // Body: base64Data,
+            Body: image,
             ACL: "public-read",
             ContentEncoding: "base64",
-            ContentType: `image/${type}`
+            // ContentType: `image/${type}`
+            
         }
         // upload image to S3 bucket
         S3.upload(params, (err,data) => {
@@ -132,7 +134,7 @@ courseController.uploadVideo = async (req, res) => {
             Key: `${nanoid()}.${video.type.split('/')[1]}`, //video/mp4
             Body: readFileSync(video.path),
             // ACL: "public-read",
-            ContentType: video.type,
+            // ContentType: video.type,
         }
         // upload video to S3 bucket
         S3.upload(params, (err,data) => {
@@ -197,4 +199,43 @@ courseController.addLesson = async (req, res) => {
         return res.status(400).send("Add lesson failed");
       }
     };
+    courseController.publishCourse = async (req, res) => {
+        try{
+            const {courseId} = req.params;
+            // console.log("hihi", courseId);
+            const course = await Course.findById(courseId).select('instructor').exec()
+            console.log("course", course)
+            if(course.instructor._id != req.userId){
+                return res.status(400).send("Unauthorized")
+            }
+            const updated = await Course.findByIdAndUpdate(courseId, {published: true}, {new:true})
+            res.json(updated)
+        }catch(err) {
+            return res.status(400).send("publish course failed")
+        }
+    }
+    courseController.unpublishCourse = async (req, res) => {
+        try{
+            const {courseId} = req.params;
+            const course = await Course.findById(courseId).select('instructor').exec()
+            if(course.instructor._id != req.userId){
+                return res.status(400).send("Unauthorized")
+            }
+            const updated = await Course.findByIdAndUpdate(courseId, {published: false}, {new:true})
+            res.json(updated)
+        }catch(err) {
+            return res.status(400).send("unpublish course failed")
+        }
+    }
+    courseController.getAllCourses = async (req, res) => {
+        try{
+            const allCourse = await Course.find({published: true}).populate('instructor', '_id name').exec();
+            // console.log(allCourse, "allCourse")
+            res.json(allCourse);
+        }catch(err){
+            console.log(err)
+        }
+       
+
+    }
 module.exports = courseController;

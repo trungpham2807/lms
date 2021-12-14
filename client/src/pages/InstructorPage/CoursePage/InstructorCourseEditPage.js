@@ -48,7 +48,7 @@ const InstructorCourseEditPage = () => {
         setValues({...values, [e.target.name]: e.target.value})
     }
     // handle image upload
-    const handleImage = (e) => {
+    const handleImage = (e) =>  {
         // each time call createObjURL -> new obj URL created
         // preview image
         setPreview(window.URL.createObjectURL(e.target.files[0]))

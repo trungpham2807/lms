@@ -22,7 +22,8 @@ import InstructorCourseEditPage from "./pages/InstructorPage/CoursePage/Instruct
 import UserPage from "./pages/UserPage/UserPage"
 import BecomeInstructor from "./pages/UserPage/BecomeIntructor"
 import StripePage from "./pages/StripePage/StripePage"
-
+import DiscoverCoursePage from "./pages/DiscoverCoursePage/DiscoverCoursePage"
+import SingleCoursePage from "./pages/DiscoverCoursePage/SingleCoursePage"
 function App() {
 
   return (
@@ -32,8 +33,10 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element = {<HomePage />} />
+          <Route path="/discover-course" element={<DiscoverCoursePage/>} /> 
           <Route path="/login" element = {<LoginPage />} />
           <Route path="/register" element = {<RegisterPage />} />
+          <Route path="/course/:slug" element={<SingleCoursePage />} />
     
           {/* test route */}
           <Route path="/instructor/course/create" element={<CourseCreate/>}  />
