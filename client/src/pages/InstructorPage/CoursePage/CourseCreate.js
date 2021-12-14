@@ -7,6 +7,7 @@ import {toast} from "react-toastify"
 import { useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux"
 import {authActions} from "../../../redux/actions/auth.action"
+import api from "../../../redux/api"
 const CourseCreate = () => {
     const dispatch = useDispatch()
     const {user} = useSelector(state => state.auth)
@@ -25,6 +26,7 @@ const CourseCreate = () => {
         category: "",
     })
     const [image, setImage] = useState({})
+    console.log("image", image)
     const [preview, setPreview] = useState('')
     const [uploadButton, setUploadButton] = useState('Upload Image')
     // using different name properties instead of write every single on change -> [] dynamic
@@ -87,7 +89,7 @@ const CourseCreate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
-            const {data} = await axios.post("http://localhost:8000/api/course", {
+            const {data} = await api.post("http://localhost:8000/api/course", {
                 ...values,
                 image,
             })

@@ -3,7 +3,7 @@ import {useState, useEffect} from "react"
 import {Link, useNavigate, useParams} from "react-router-dom"
 import InstructorRoute from "../../../components/routes/InstructorRoute"
 import axios from "axios"
-import {Avatar, Button, Modal,Tooltip } from 'antd';
+import {Avatar, Button, Modal,Tooltip, List } from 'antd';
 import ReactMarkdown from 'react-markdown'
 import {toast} from "react-toastify"
 import api from "../../../redux/api"
@@ -12,6 +12,7 @@ import { UploadOutlined, CheckCircleOutlined, CloseCircleOutlined, EditOutlined,
 import {useDispatch, useSelector} from "react-redux"
 import {authActions} from "../../../redux/actions/auth.action"
 import remarkGfm from 'remark-gfm'
+import Item from 'antd/lib/list/Item'
 
 const InstructorCourseViewPage = () => {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ const InstructorCourseViewPage = () => {
 
 
     const [course, setCourse] = useState([]);
-    // console.log("course instructor view page", course)
+    console.log(" lesson course instructor view page", course.lessons)
     // lesson
     const [visible, setVisible] = useState(false);
     const [values, setValues] = useState({
@@ -43,13 +44,20 @@ const InstructorCourseViewPage = () => {
     const [progress, setProgress] = useState(0)
     // Add Lesson
     const handleCreateLesson = async (e) => {
+      try{
         e.preventDefault();
-        const {data} = await axios.post(`http://localhost:8000/api/course/lesson/${slug}/${course.instructor._id}`, values)
+        const {data} = await api.post(`http://localhost:8000/api/course/lesson/${slug}/${course.instructor._id}`, values)
         setValues({...values, title: "", content: "", video: {}})
         setProgress(0);
         setUploadButtonText("Upload Video")
         setVisible(false)
         setCourse(data)
+        toast("Lesson Added")
+      }catch(err){
+        console.log(err);
+        toast("Add lesson failed")
+      }
+        
     }
     // handle upload video lesson
     const handleVideo = async (e) => {
@@ -188,6 +196,30 @@ const params = useParams();
                 progress={progress}
               />
             </Modal>
+
+            {/* Render lesson view for instructor */}
+            <div className="mt-5">
+            
+            {/* {course && course.lessons.map(lesson => lesson.title)} */}
+            </div>
+            <div className="row pb-5">
+              <div className="col lesson-list">
+                <h4>
+                  {course && course.lessons && course.lessons.length} Lessons
+                </h4>
+                <List itemLayout="horizontal" 
+                  dataSource={course && course.lessons}
+                 renderItem={(item, index) => 
+                  <Item>
+                    <Item.Meta avatar={<Avatar>{index + 1}</Avatar>}
+                    title={item.title}>
+
+                    </Item.Meta>
+                  </Item>
+                 }>
+                </List>
+              </div>
+            </div>
           </div>
         )}
       </div>

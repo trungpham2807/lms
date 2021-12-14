@@ -32,7 +32,7 @@ mongoose.connect(
 app.use(cors());
 // can take any json object (send data from front -> back)
 // set limit to prevent payload too large
-app.use(express.json({limit : "3mb"}));
+app.use(express.json({limit : "5mb"}));
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: true }));

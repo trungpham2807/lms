@@ -8,11 +8,11 @@ const authMiddleware = require("../middlewares/index")
 
 // Course
 router.get("/:slug", 
-// authMiddleware.loginRequired,
+authMiddleware.loginRequired,
 // authMiddleware.isInstructor,
 getCourse)
 router.post("/",
-// authMiddleware.loginRequired,
+authMiddleware.loginRequired,
 // authMiddleware.isInstructor, 
 createCourse)
 router.put("/:slug",
@@ -20,11 +20,17 @@ router.put("/:slug",
 // authMiddleware.isInstructor,
  editCourse)
 // handle image course
-router.post("/upload-image",  uploadImage)
-router.post("/remove-image", removeImage)
+router.post("/upload-image", 
+uploadImage)
+router.post("/remove-image",
+removeImage)
 // Lesson
-router.post("/lesson/:slug/:instructorId", addLesson)
-// router.post("/lesson/:slug/:instructorId", updateLesson)
+router.post("/lesson/:slug/:instructorId", 
+authMiddleware.loginRequired,
+addLesson)
+// router.post("/lesson/:slug/:instructorId", 
+// authMiddleware.loginRequired,
+// updateLesson)
 // router.post("/lesson/:slug/:lessonId", removeLesson)
 
 // handle video lesson

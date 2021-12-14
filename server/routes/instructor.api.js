@@ -6,7 +6,7 @@ const {getInstructorCourse, becomeInstructor} = require("../controllers/instruct
 const authMiddleware = require("../middlewares/index")
 
 router.get("/instructor-courses",
-//  authMiddleware.loginRequired,
+ authMiddleware.loginRequired,
  getInstructorCourse)
 // become instructor
 router.post("/become-instructor", 

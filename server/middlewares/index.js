@@ -61,12 +61,13 @@ authMiddleware.isInstructor = async (req, res, next) => {
     try{
         const user = await User.findById(req.userId).exec();
         if(!user.role.includes("Instructor")){
-            return res.sendStatus(403);
+            return res.status(403).send("Only instructor can create course");
         }else{
             next()
         }
     }catch(err){
         console.log(err)
+        return res.status(400).send("Error")
     }
 }
 // check if enrolled or not

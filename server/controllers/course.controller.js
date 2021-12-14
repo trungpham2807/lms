@@ -20,10 +20,10 @@ courseController.uploadImage = async (req, res) => {
     try{
         const {image} = req.body;
         if(!image) return res.status(400).send("Only image can be uploaded")
-
         // prepare image
         const base64Data = new Buffer.from(image.replace(/^data:image\/w+;base64,/, "")
         ,"base64" );
+        // console.log(base64Data, "base64data");
         // type
         const type = image.split(";")[0].split('/')[1];
         // image params
@@ -178,7 +178,7 @@ courseController.addLesson = async (req, res) => {
         const { slug, instructorId } = req.params;
         const { title, content, video } = req.body;
     
-        if (req.user._id != instructorId) {
+        if (req.userId != instructorId) {
           return res.status(400).send("Unauthorized");
         }
     

@@ -144,12 +144,7 @@ check password correct: take user pass -> hash -> compare with hash saved -> gen
 
 
   authController.logout = async (req, res) => {
-    // try {
-    //   res.clearCookie("token");
-    //   return res.json({ message: "Signout success" });
-    // } catch (err) {
-    //   console.log(err);
-    // }
+
     try {
       res.clearCookie("token");
       return res.json({ message: "Signout success" });
