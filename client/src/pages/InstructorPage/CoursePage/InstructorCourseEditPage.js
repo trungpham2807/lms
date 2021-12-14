@@ -4,14 +4,17 @@ import axios from "axios"
 import  Resizer from "react-image-file-resizer"
 import CourseCreateForm from "../../../components/forms/CourseCreateForm"
 import {toast} from "react-toastify"
+import {Avatar, Button, Modal,Tooltip, List } from 'antd';
+import Item from 'antd/lib/list/Item'
+
 import { useNavigate, useParams } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux"
 import {authActions} from "../../../redux/actions/auth.action"
 import InstructorRoute from "../../../components/routes/InstructorRoute"
+import api from "../../../redux/api"
 const InstructorCourseEditPage = () => {
     const dispatch = useDispatch()
     const {user} = useSelector(state => state.auth)
-    console.log("userrrrr", user)
     useEffect(() => {
         dispatch(authActions.getCurrentUser())
       }, []);
@@ -34,10 +37,11 @@ const InstructorCourseEditPage = () => {
     const {slug} = params;
     useEffect(() => {
         loadCourse()
-    }, [])
+    }, [slug])
     const loadCourse = async () => {
-        const {data} = await axios.get(`http://localhost:8000/api/course/${slug}`)
+        const {data} = await api.get(`http://localhost:8000/api/course/${slug}`)
         setValues(data)
+        // console.log("1data", data)
     }
     const handleChange = (e) => {
         
@@ -107,7 +111,29 @@ const InstructorCourseEditPage = () => {
             toast(err)
         }
     }
+// handle drag drop lesson
+    const handleDrag = (e, index) => {
+        // console.log("drag", index)
+        // saving index to dataTransfer
+        e.dataTransfer.setData('itemIndex', index)
+    }
+    const handleDrop = async (e, index) => {
+        const movingItemIndex = e.dataTransfer.getData('itemIndex')
+        const targetItemIndex = index;
 
+        let allLessons = values.lessons;
+        let movingItem = allLessons[movingItemIndex]; // click/drag item to re-order
+        // remove 1 item from given index
+        allLessons.splice(movingItemIndex, 1)
+        // push movingItem to lessons after target item index
+        allLessons.splice(targetItemIndex, 0, movingItem)
+        setValues({...values, lessons: [...allLessons]})
+        // save lessons to mongodb
+        const {data} = await api.put(`http://localhost:8000/api/course/${slug}`, {
+            ...values,
+            image})
+     toast("lesson re-arranged success")
+    }   
     return (
         <InstructorRoute>
         <h1 className="jumbotron text-center square"> Edit Course</h1>
@@ -128,6 +154,33 @@ const InstructorCourseEditPage = () => {
             {/* <pre>{JSON.stringify(values, null, 4)}</pre>
             <pre>image: {JSON.stringify(image, null, 4)} </pre> */}
         </div>
+
+         {/* Render lesson view for instructor */}
+         <div className="row pb-5">
+              <div className="col lesson-list">
+                <h4>
+                  {values && values.lessons && values.lessons.length} Lessons
+                </h4>
+                <List
+                // prevent default on Drag
+                onDragOver = {(e) => e.preventDefault()} 
+                itemLayout="horizontal" 
+                  dataSource={values && values.lessons}
+                 renderItem={(item, index) => 
+                  <Item
+                  draggable
+                  onDragStart={(e) => handleDrag(e, index)}
+                  onDrop={(e) => handleDrop(e, index)}
+                  >
+                    <Item.Meta avatar={<Avatar>{index + 1}</Avatar>}
+                    title={item.title}>
+
+                    </Item.Meta>
+                  </Item>
+                 }>
+                </List>
+              </div>
+            </div>
         </InstructorRoute>
     )
 }

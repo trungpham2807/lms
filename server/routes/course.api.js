@@ -16,7 +16,7 @@ authMiddleware.loginRequired,
 // authMiddleware.isInstructor, 
 createCourse)
 router.put("/:slug",
-// authMiddleware.loginRequired,
+authMiddleware.loginRequired,
 // authMiddleware.isInstructor,
  editCourse)
 // handle image course

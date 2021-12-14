@@ -121,13 +121,13 @@ const InstructorPage = () => {
                           {course.lessons.length} Lessons
                         </p>
     
-                        {course.lessons.length < 5 ? (
+                        {course.lessons.length < 2 ? (
                           <p style={{ marginTop: "-15px", fontSize: "10px" }} className="text-warning">
-                            At least 5 lessons are required to publish a course
+                            At least 2 lessons are required to publish a course
                           </p>
                         ) : course.published ? (
                           <p style={{ marginTop: "-15px", fontSize: "10px" }} className="text-success">
-                            Your course is live in the marketplace
+                            Your course is live in site
                           </p>
                         ) : (
                           <p style={{ marginTop: "-15px", fontSize: "10px" }} className="text-success">

@@ -198,10 +198,6 @@ const params = useParams();
             </Modal>
 
             {/* Render lesson view for instructor */}
-            <div className="mt-5">
-            
-            {/* {course && course.lessons.map(lesson => lesson.title)} */}
-            </div>
             <div className="row pb-5">
               <div className="col lesson-list">
                 <h4>
