@@ -130,9 +130,9 @@ const handleSearchInputChange = (e) => {
                           {/* if instructor login */}
 
                    {
-                //     user &&
-                   user.role && 
-                   user.role.includes("instructor") ? 
+                    user &&
+                   user?.role && 
+                   user?.role.includes("instructor") ? 
                    (<Item key="/instructor">
                    <Link to="/instructor">
                        Dashboard

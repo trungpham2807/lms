@@ -17,6 +17,7 @@ const SingleCourseCard = ({course,
     loading,
     // user,
     enrolled,
+    setEnrolled,
     handlePaidEnrollment,
     handleFreeEnrollment,
   }) => {
@@ -108,8 +109,10 @@ const SingleCourseCard = ({course,
                 disabled={loading}
                 onClick = {paid ? handlePaidEnrollment : handleFreeEnrollment}
               >
-                {user
-                 ? "Enroll this course"
+                {/* if have user then check user already enrolled -> show Go to course */}
+                {/* No user -> required login to enroll */}
+                {user ? enrolled.status? "Go to course"
+                 : "Enroll this course"
                   : "Login to enroll"}
               </Button>
             )}

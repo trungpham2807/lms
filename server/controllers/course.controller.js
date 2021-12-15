@@ -3,6 +3,7 @@ const sendResponse = require("../helpers/sendResponse.helper");
 const AWS = require("aws-sdk");
 const {nanoid} = require("nanoid"); 
 const Course = require("../models/Course")
+const User = require("../models/User")
 const slugify = require("slugify")
 const {readFileSync} = require("fs")
 require('dotenv').config()
@@ -275,5 +276,36 @@ courseController.addLesson = async (req, res) => {
             return res.status(400).send("update lesson failed")
         }
         
+    }
+    courseController.checkEnrollment = async (req, res) => {
+        const {courseId} = req.params;
+        const user = await User.findById(req.userId).exec();
+        // check if course id is found in User Course
+        let ids = [];
+        // every courses of this user
+        let length = user.courses && user.courses.length;
+        for(let i=0; i < length; i++){
+            ids.push(user.courses[i].toString())
+        }
+        res.json({status: ids.includes(courseId),
+        course: await Course.findById(courseId).exec()})
+    }
+    courseController.freeEnrollment = async (req, res) => {
+        try{
+            // check if course is free or paid
+            const course = await Course.findById(req.params.courseId).exec();
+            if(course.paid) return;
+            const result = await User.findByIdAndUpdate(req.userId, {
+                $addToSet: {courses: course._id},
+
+            })
+            res.json({
+                message: "Successfully enrolled",
+                course
+            })
+        }catch(err){
+            console.log("free enrollment", err)
+            return res.status(400).send("Enrollment creation failed")
+        }
     }
 module.exports = courseController;

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {getAllCourses, uploadImage, removeImage, getCourse, createCourse, editCourse, removeVideo,
 uploadVideo, addLesson, removeLesson, updateLesson,
-publishCourse, unpublishCourse} = require("../controllers/course.controller")
+publishCourse, unpublishCourse, checkEnrollment, freeEnrollment} = require("../controllers/course.controller")
 const formidable = require('express-formidable');
 // middleware
 const authMiddleware = require("../middlewares/index")
@@ -59,5 +59,7 @@ updateLesson)
 router.post("/video-upload", formidable(), uploadVideo)
 router.post("/video-remove", formidable(), removeVideo)
 
-
+// check enrollment
+router.get('/check-enrollment/:courseId', authMiddleware.loginRequired, checkEnrollment)
+router.post('/free-enrollment/:courseId', authMiddleware.loginRequired, freeEnrollment)
 module.exports = router;
