@@ -4,10 +4,17 @@ import axios from "axios"
 import {Link, useParams} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
 import {authActions} from "../../redux/actions/auth.action"
-import {Badge} from "antd"
+import {Badge, Modal, Button} from "antd"
+import PreviewModal from '../../components/modal/PreviewModal'
+import SingleCourseCard from "../../components/cards/SingleCourseCard"
 import {currencyFormatter} from "../../utils/helper"
+import ReactPlayer from "react-player"
+import SingleCourseLesson from "../../components/cards/SingleCourseLesson"
 const SingleCoursePage = () => {
     const [course, setCourse] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [preview, setPreview] = useState("");
+    const [loading, setLoading] = useState(false);
     const params = useParams();
     const {slug} = params;
     const dispatch = useDispatch()
@@ -27,27 +34,31 @@ const SingleCoursePage = () => {
 
     // const {name, description, instructor, updateAt, lessons, image, price, paid, category} = courses;
     return (
+        <>
+        <SingleCourseCard
+        course={course}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        preview={preview}
+        setPreview={setPreview}
+        // user={user}
+        loading={loading}
+      />
 
-                <div className="jumbotron bg-primary square">   
-                    <div className="row">   
-                        <div className="col-md-8">
-                            <h1 className="text-light font-weight-bold">
-                            {course?.name}
-                            </h1>
-                            <p className="lead">{course?.description && course?.description.substring(0,160)}...</p>
-                        </div>
-                        <Badge count={course?.category} style={{backgroundColor:"#03a9f4"}} className="pb-4 mr-2"/>
-                        {/* <p>Created by {course?.instructor.name}</p> */}
-                        <p>Last update {new Date(course.updatedAt).toLocaleDateString()}</p>
-                        <h4 className="text">
-                            {course?.paid ? currencyFormatter({amount: course?.price, currency: "usd"}): "Free"}
-                        </h4>
-                        <div className="col-md-4">
-                            <p>show course image</p>
-                            <p>show enroll button</p>
-                        </div>      
-                    </div>  
-                </div>
+      <PreviewModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        preview={preview}
+      />
+      {course.lessons && (
+          <SingleCourseLesson
+          lessons = {course.lessons}
+          setPreview={setPreview}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          />
+      )}
+        </>
     )
 }
 

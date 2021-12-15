@@ -10,7 +10,8 @@ const loginRequest = (email, password) => async (dispatch) => {
     dispatch({ type: types.LOGIN_SUCCESS, payload: res.data });
     toast.success(`Welcome ${name} login`);
     api.defaults.headers.common["authorization"] =
-      "Bearer " + res.data.token;
+      // "Bearer " + res.data.token;
+      `Bearer ${res.data.token}`
 
     localStorage.setItem("token", res.data.token);
   } catch (error) {

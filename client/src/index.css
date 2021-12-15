@@ -4,7 +4,7 @@
 .jumbotron{
   background-image: url(https://www.joshmorony.com/media/2016/04/alto-screenshot.jpeg);
   color: #fff;
-  height: 200px;
+  /* height: 200px; */
   /* padding-top: 20%;
   padding-bottom: 20%;
   -webkit-background-size: cover;

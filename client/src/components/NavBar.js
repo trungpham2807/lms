@@ -18,11 +18,14 @@ import {
 import {authActions} from "../redux/actions/auth.action"
 import {useDispatch, useSelector} from "react-redux"
 import {useState, useEffect} from "react"
+// import SearchForm from "../components/search/SearchForm"
 // import {Context} from "../context/index"
 const {Item, SubMenu, ItemGroup} = Menu;
 const NavBar = () => {
     // redux state
 const dispatch = useDispatch()
+const [searchInput, setSearchInput] = useState("");
+const [query, setQuery] = useState("");
 const {user} = useSelector(state => state.auth)
 
 const navigate = useNavigate();
@@ -30,7 +33,14 @@ const navigate = useNavigate();
 // global state
 // const {state : {user}, dispatch} = useContext(Context)
 // active navbar
+const handleSearchInputChange = (e) => {
+    setSearchInput(e.target.value);
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setQuery(searchInput);
+  };
     const [current, setCurrent] = useState("");
     useEffect(() => {
         process.browser && setCurrent(window.location.pathname)
@@ -49,6 +59,12 @@ const navigate = useNavigate();
 
     }
     return (
+        <div>
+        {/* <SearchForm
+        searchInput={searchInput}
+        handleSearchChange={handleSearchInputChange}
+        handleSubmit={handleSubmit}
+        /> */}
         <Menu className="nav-bar" selectedKeys = {[current]}>
         {/* <Item key="/user/become-instructor" 
        onClick={(e) => setCurrent(e.key)}
@@ -106,12 +122,14 @@ const navigate = useNavigate();
        {user !== null && (
            <>
            <SubMenu icon = {<SmileOutlined/>} 
-           // title={user && user.user.name}
+           title={user.name}
             className="float-right">
                <ItemGroup>
                           {/* if instructor login */}
 
-                   {user.role.includes("instructor") ? 
+                   {
+                //    user.role && 
+                   user.role.includes("instructor") ? 
                    (<Item key="/instructor">
                    <Link to="/instructor">
                        Dashboard
@@ -136,6 +154,7 @@ const navigate = useNavigate();
 
        
    </Menu>
+   </div>
 
 )
 }

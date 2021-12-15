@@ -96,7 +96,8 @@ const CourseCreate = () => {
             toast.success("Successfully create course")
             navigate("/instructor")
         }catch(err){
-            toast(err.response.data)
+            toast("errorrr")
+            console.log(err)
         }
     }
 

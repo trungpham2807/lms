@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux"
 import {authActions} from "../../redux/actions/auth.action"
+import {Button} from "antd"
+import {Link} from "react-router-dom"
 import "./HomePage.css"
 import image_1 from "../../images/image_1.svg"
 import image_2 from "../../images/image_2.svg"
@@ -12,7 +14,6 @@ import button from "../../images/button.svg"
 const HomePage = () => {
     const dispatch = useDispatch()
     const {user} = useSelector(state => state.auth)
-    console.log("userrrrr", user)
     useEffect(() => {
         dispatch(authActions.getCurrentUser())
       }, []);
@@ -29,6 +30,12 @@ const HomePage = () => {
             <div>
                 <img src={button} />
             </div>
+            <Link to="/discover-course">
+            <Button type="primary">
+            Discover Course
+            </Button>
+            </Link>
+
         </div>
     )
 }
