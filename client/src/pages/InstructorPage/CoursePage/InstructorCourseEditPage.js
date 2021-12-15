@@ -6,12 +6,13 @@ import CourseCreateForm from "../../../components/forms/CourseCreateForm"
 import {toast} from "react-toastify"
 import {Avatar, Button, Modal,Tooltip, List } from 'antd';
 import Item from 'antd/lib/list/Item'
-
+import {DeleteOutlined} from "@ant-design/icons"
 import { useNavigate, useParams } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux"
 import {authActions} from "../../../redux/actions/auth.action"
 import InstructorRoute from "../../../components/routes/InstructorRoute"
 import api from "../../../redux/api"
+import LessonUpdateForm from "../../../components/forms/LessonUpdateForm"
 const InstructorCourseEditPage = () => {
     const dispatch = useDispatch()
     const {user} = useSelector(state => state.auth)
@@ -28,11 +29,18 @@ const InstructorCourseEditPage = () => {
         loading: false,
         category: "",
     })
+    const [course, setCourse] = useState([]);
     const [image, setImage] = useState({})
     const [preview, setPreview] = useState('')
     const [uploadButton, setUploadButton] = useState('Upload Image')
     // using different name properties instead of write every single on change -> [] dynamic
-    
+    const [visible, setVisible] = useState(false);
+    const [current, setCurrent] = useState({})
+    const [uploading, setUploading] = useState(false)
+    // Upload Button text
+    const [uploadVideoButtonText, setUploadVideoButtonText] = useState("Upload video")
+    // check progress uploading video
+    const [progress, setProgress] = useState(0)
     const params = useParams();
     const {slug} = params;
     useEffect(() => {
@@ -41,6 +49,7 @@ const InstructorCourseEditPage = () => {
     const loadCourse = async () => {
         const {data} = await api.get(`http://localhost:8000/api/course/${slug}`)
         setValues(data)
+        setCourse(data)
         // console.log("1data", data)
     }
     const handleChange = (e) => {
@@ -133,12 +142,65 @@ const InstructorCourseEditPage = () => {
             ...values,
             image})
      toast("lesson re-arranged success")
-    }   
+    }
+    // delete lesson by course slug and id lesson
+    const handleDelete = async (e) => {
+        const answer = window.confirm("Are you sure to delete lesson?")
+        if(!answer) return;
+        let allLessons = values.lessons;
+        const removed = allLessons.splice(e, 1)
+        setValues({...values, lessons: allLessons})
+        const {data} = await api.put(`course/${slug}/${removed[0]._id}`)
+    }  
+    // handle upload video lesson
+    const handleVideo = async (e) => {
+        
+        try{
+            const file = e.target.files[0];
+            setUploadVideoButtonText(file.name);
+            setUploading(true)
+            // send data to backend
+            const videoData = new FormData()
+            videoData.append('video', file)
+            // save progress bar -> send video as form data to backend
+            const {data} = await api.post("http://localhost:8000/api/course/video-upload", videoData, {
+                onUploadProgress: (e) => {
+                    setProgress(Math.round(100 * e.loaded) / e.total)
+                }
+            })
+            // once response is received
+            console.log(data)
+            setValues({...values, video: data})
+            setUploading(false)
+            toast.success("Lesson upload successfully")
+
+        }catch(err){
+            setUploading(false)
+            toast.error("Video upload fail")
+        }
+
+    } 
+    const handleUpdateLesson = async (e) => {
+        e.preventDefault();
+        const {data} = await api.put(`/course/lesson/${slug}/${current._id}`, current)
+        setUploadVideoButtonText("upload video");
+        setVisible(false);
+        // change from FE
+        if(data.ok){
+            let arr = values.lessons;
+            const index = arr.findIndex((el)=> el._id === current._id);
+            arr[index]= current;
+            setValues({...values, lessons: arr})
+            toast("Lesson updated")
+
+        }
+    }
+        
     return (
         <InstructorRoute>
         <h1 className="jumbotron text-center square"> Edit Course</h1>
-        {/* {JSON.stringify(values)} */}
         <div className="pt-3 pb-3">
+            {/* Form create course */}
             <CourseCreateForm 
             handleSubmit={handleSubmit}
             handleImage={handleImage}
@@ -163,24 +225,44 @@ const InstructorCourseEditPage = () => {
                 </h4>
                 <List
                 // prevent default on Drag
+                // drag drop lessons
                 onDragOver = {(e) => e.preventDefault()} 
                 itemLayout="horizontal" 
                   dataSource={values && values.lessons}
                  renderItem={(item, index) => 
                   <Item
+                  style={{cursor: 'pointer'}}
                   draggable
                   onDragStart={(e) => handleDrag(e, index)}
                   onDrop={(e) => handleDrop(e, index)}
                   >
-                    <Item.Meta avatar={<Avatar>{index + 1}</Avatar>}
+                      {/* update lesson */}
+                    <Item.Meta
+                    onClick={() => {setVisible(true)
+                    setCurrent(item)}} 
+                    avatar={<Avatar>{index + 1}</Avatar>}
                     title={item.title}>
 
                     </Item.Meta>
+                    <DeleteOutlined onClick={() => handleDelete(index)}
+                    className="text-danger float-right" />
                   </Item>
                  }>
                 </List>
               </div>
             </div>
+            <Modal title="Update leson" centered visible={visible} onCancel={()=> setVisible(false)} footer={null}>
+                 update lesson form
+                 <LessonUpdateForm
+                 current={current}
+                 setCurrent={setCurrent}
+                 handleVideo={handleVideo}
+                 handleUpdateLesson={handleUpdateLesson}
+                 uploadVideoButtonText={uploadVideoButtonText}
+                 progress={progress}
+                 uploading={uploading}
+                  />
+            </Modal>
         </InstructorRoute>
     )
 }

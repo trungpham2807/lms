@@ -38,9 +38,18 @@ authMiddleware.loginRequired,
 unpublishCourse
 )
 // Lesson
+router.put("/:slug/:lessonId",
+authMiddleware.loginRequired,
+removeLesson
+)
+
 router.post("/lesson/:slug/:instructorId", 
 authMiddleware.loginRequired,
 addLesson)
+
+router.put("/lesson/:slug/:instructorId", 
+authMiddleware.loginRequired,
+updateLesson)
 // router.post("/lesson/:slug/:instructorId", 
 // authMiddleware.loginRequired,
 // updateLesson)

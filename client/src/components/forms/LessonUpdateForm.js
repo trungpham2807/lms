@@ -1,76 +1,87 @@
-import React from 'react'
-import {Button, Progress, Tooltip} from "antd"
-import {CloseCircleFilled} from '@ant-design/icons'
-const LessonUpdateForm = ({handleCreateLesson, handleVideo, handleVideoRemove,
-    values, setValues, 
-    uploading, setUpLoading,
-    progress,
-    uploadButtonText, setUploadButtonText}) => {
-    return (
-        <div className="container pt-3">
-            <form onSubmit={handleCreateLesson}>
-                <input type="text" 
-                className="form-control square"
-                onChange={(e) => setValues({ ...values, title: e.target.value })}
-                value={values.title}
-                placeholder="Title"
-                autoFocus
-                required
-                />
+import { Button, Progress, Switch } from "antd";
+import { CloseCircleFilled, CloseCircleOutlined } from "@ant-design/icons";
+import ReactPlayer from "react-player";
 
-                <textarea className="form-control mt-3" cols="7" rows="7" 
-                onChange={(e) => setValues({ ...values, content: e.target.value })}
-                value={values.content}                
-                placeholder="Content">
-                </textarea>
-                {/* upload video */}
-                <div className="form-row ">
-                    <div className="col">
-                        <div className="form-group" >
-                           
-                        </div>
-                    </div>
-                </div>
-                <div className="d-flex justify-content-center">
-                    <label className="btn btn-outline-secondary btn-block text-left mt-3 test ">
-                        {uploadButtonText}                                
-                        <input 
-                        type="file" 
-                        name="video" 
-                        size="large"
-                        onChange={handleVideo} 
-                        accept="video/*" 
-                        hidden
-                        />
-                    </label>
-                    {
-                    // !uploading && values.video.Location && 
-                    (
-                        <Tooltip title="Remove">
-                            <span onClick = {handleVideoRemove} className="pt-1 pl-3">
-                                <CloseCircleFilled className="text-danger d-flex justify-content-center pt-4 pointer" />
-                            </span>
-                        </Tooltip>
-                    )}
-                </div>
-                {/* check progress upload video */}
-                {progress > 0 && <Progress
-                 className="d-flex justify-content-center pt-2"
-                  percent={progress}
-                  steps={10} />}
-                <Button 
-                onClick={handleCreateLesson} 
-                className="col mt-3" 
-                size="large"
-                type="primary"
-                loading={uploading}
-                style={{width: "100%"}}
-                shape="round">
-                    Create Lesson
-                </Button>
-            </form>
+const LessonUpdateForm = ({
+  current,
+  setCurrent,
+  handleUpdateLesson,
+  uploading,
+  uploadVideoButtonText,
+  handleVideo,
+  progress,
+}) => {
+  return (
+    <div className="container pt-3">
+      {/* {JSON.stringify(current)} */}
+      <form onSubmit={handleUpdateLesson}>
+        <input
+          type="text"
+          className="form-control square"
+          onChange={(e) => setCurrent({ ...current, title: e.target.value })}
+          value={current.title}
+          autoFocus
+          required
+        />
+
+        <textarea
+          className="form-control mt-3"
+          cols="7"
+          rows="7"
+          onChange={(e) => setCurrent({ ...current, content: e.target.value })}
+          value={current.content}
+        ></textarea>
+
+        <div>
+          {!uploading && current.video && current.video.Location && (
+            <div className="pt-2 d-flex justify-content-center">
+              <ReactPlayer
+                url={current.video.Location}
+                width="410px"
+                height="240px"
+                controls
+              />
+            </div>
+          )}
+
+          <label className="btn btn-dark btn-block text-left mt-3">
+            {uploadVideoButtonText}
+            <input onChange={handleVideo} type="file" accept="video/*" hidden />
+          </label>
         </div>
-    )
-}
 
-export default LessonUpdateForm
+        {progress > 0 && (
+          <Progress
+            className="d-flex justify-content-center pt-2"
+            percent={progress}
+            steps={10}
+          />
+        )}
+
+        <div className="d-flex justify-content-between">
+          <span className="pt-3 text-dark badge">Preview</span>
+          <Switch
+            className="float-right mt-2"
+            disabled={uploading}
+            checked={current.free_preview}
+            name="free_preview"
+            onChange={(v) => setCurrent({ ...current, free_preview: v })}
+          />
+        </div>
+
+        <Button
+          onClick={handleUpdateLesson}
+          className="col mt-3"
+          size="large"
+          type="primary"
+          loading={uploading}
+          shape="round"
+        >
+          Save
+        </Button>
+      </form>
+    </div>
+  );
+};
+
+export default LessonUpdateForm;

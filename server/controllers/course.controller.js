@@ -235,7 +235,45 @@ courseController.addLesson = async (req, res) => {
         }catch(err){
             console.log(err)
         }
-       
 
+    }
+    courseController.removeLesson = async (req, res) => {
+        const {slug, lessonId} = req.params;
+        const course = await Course.findOne({slug}).exec();
+        // if(req.userId != course.instructor){
+        //     return res.status(400).send("Unauthorized")
+        // }
+        const deleteCourse = await Course.findByIdAndUpdate(course._id, {
+            $pull: {lessons: {_id: lessonId}}
+        }).exec();
+        res.json({ok:true})
+    }
+    // update lesson (nested value)
+    courseController.updateLesson = async (req, res) => {
+        try{
+            const {slug} = req.params;
+            const {_id, title, content, video, free_preview} = req.body;
+            // console.log("iddd", title)
+            const course = await Course.findOne({slug}).select("instructor").exec();
+            if(course.instructor._id != req.userId){
+                return res.status(400).send("Unauthorized")
+            }
+            const updated = await Course.updateOne(
+                {"lessons._id": _id}, { 
+                $set: {
+                    "lessons.$.title": title,
+                    "lessons.$.content": content,
+                    "lessons.$.video": video,
+                    "lessons.$.free_preview": free_preview,
+                }
+            }, {
+                new: true
+            }
+            ).exec();
+            res.json({ok: true})
+        }catch(err){
+            return res.status(400).send("update lesson failed")
+        }
+        
     }
 module.exports = courseController;
