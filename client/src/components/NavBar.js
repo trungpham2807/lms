@@ -27,9 +27,11 @@ const dispatch = useDispatch()
 const [searchInput, setSearchInput] = useState("");
 const [query, setQuery] = useState("");
 const {user} = useSelector(state => state.auth)
-
+useEffect(() => {
+    dispatch(authActions.getCurrentUser())
+  }, []);
 const navigate = useNavigate();
-
+// console.log("userrrrrrrrrrrrrrrrrrrrrrrrrr", user)
 // global state
 // const {state : {user}, dispatch} = useContext(Context)
 // active navbar
@@ -128,7 +130,8 @@ const handleSearchInputChange = (e) => {
                           {/* if instructor login */}
 
                    {
-                //    user.role && 
+                //     user &&
+                   user.role && 
                    user.role.includes("instructor") ? 
                    (<Item key="/instructor">
                    <Link to="/instructor">

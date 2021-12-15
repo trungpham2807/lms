@@ -26,7 +26,7 @@ const UserRoute = ({ children }) => {
   useEffect(() => {
     // fetchUser();
     dispatch(authActions.getCurrentUser())
-    navigate("/user");
+    // navigate("/user");
   }, []);
 
   // const fetchUser = async () => {

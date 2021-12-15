@@ -33,6 +33,7 @@ const dispatch = useDispatch()
 const handleSubmit = async (e) => {
   e.preventDefault();
   dispatch(authActions.loginRequest(email, password))
+  dispatch(authActions.getCurrentUser())
   navigate("/user");
   // console.table({ name, email, password });
   // try {

@@ -31,7 +31,12 @@ const SingleCoursePage = () => {
       }, [slug]);
       console.log("course", course)
 
-
+    const handlePaidEnrollment = () => {
+        console.log("handle paid enrollment")
+    }
+    const handleFreeEnrollment = () => {
+        console.log("handle free enrollment")
+    }
     // const {name, description, instructor, updateAt, lessons, image, price, paid, category} = courses;
     return (
         <>
@@ -43,6 +48,8 @@ const SingleCoursePage = () => {
         setPreview={setPreview}
         // user={user}
         loading={loading}
+        handlePaidEnrollment={handlePaidEnrollment}
+        handleFreeEnrollment={handleFreeEnrollment}
       />
 
       <PreviewModal

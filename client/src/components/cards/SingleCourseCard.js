@@ -17,6 +17,8 @@ const SingleCourseCard = ({course,
     loading,
     // user,
     enrolled,
+    handlePaidEnrollment,
+    handleFreeEnrollment,
   }) => {
     // destructure
     const {
@@ -104,12 +106,11 @@ const SingleCourseCard = ({course,
                 icon={<SafetyOutlined />}
                 size="large"
                 disabled={loading}
+                onClick = {paid ? handlePaidEnrollment : handleFreeEnrollment}
               >
-                {/* {user
-                  ? enrolled.status
-                    ? "Go to course"
-                    : "Enroll"
-                  : "Login to enroll"} */}
+                {user
+                 ? "Enroll this course"
+                  : "Login to enroll"}
               </Button>
             )}
           </div>

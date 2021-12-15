@@ -12,7 +12,6 @@ const SingleCourseLesson = (
         <div className="container">
       <div className="row">
         <div className="col lesson-list">
-           
           {lessons && <h4>{lessons.lessons.length} Lessons</h4>}
           <hr />
           <List
@@ -24,13 +23,16 @@ const SingleCourseLesson = (
                   avatar={<Avatar>{index + 1}</Avatar>}
                   title={item.title}
                 />
-                {item.video && item.video !== null && item.free_preview && (
+                {
+                item.video && 
+                // item.video !== null &&
+                 item.free_preview && (
                   <span
                     className="text-primary pointer"
                     onClick={() => {
-                      setPreview(item.video.Location);
-                      setShowModal(!showModal);
-                    }}
+                        setPreview(item.video.Location);
+                        setShowModal(!showModal);
+                      }}
                   >
                     Preview
                   </span>

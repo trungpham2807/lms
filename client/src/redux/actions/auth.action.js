@@ -2,6 +2,7 @@ import * as types from "../constants/auth.constant";
 import api from "../api";
 import { toast } from "react-toastify";
 
+
 const loginRequest = (email, password) => async (dispatch) => {
   dispatch({ type: types.LOGIN_REQUEST, payload: null });
   try {
