@@ -1,0 +1,16 @@
+.instructor-single-course{
+    border: 1px solid black;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+}
+
+.instructor-course-1 p{
+    text-align: left !important;
+}
+.instructor-course-live{
+    color: white;
+    width: fit-content;
+    border-radius: 5px;
+    padding: 0.2rem 0.5rem;
+}

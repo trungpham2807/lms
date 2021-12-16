@@ -121,7 +121,10 @@ const handleSearchInputChange = (e) => {
            </>
        )}
        {/* if user already login -> show submenu dashboard with: Logout, login, register */}
-       {user !== null && (
+       {
+       user !== null
+    //    user
+        && (
            <>
            <SubMenu icon = {<SmileOutlined/>} 
            title={user.name}
@@ -130,9 +133,9 @@ const handleSearchInputChange = (e) => {
                           {/* if instructor login */}
 
                    {
-                    user &&
-                   user?.role && 
-                   user?.role.includes("instructor") ? 
+                    // user &&
+                //    user.role && 
+                   user.role.includes("instructor") ? 
                    (<Item key="/instructor">
                    <Link to="/instructor">
                        Dashboard

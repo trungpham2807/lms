@@ -110,10 +110,11 @@ courseController.editCourse = async (req, res) => {
     try{
         const {slug} = req.params;
         const course = await Course.findOne({slug}).exec()
+
         // console.log("Course found", course)
-        if(req.userId != course.instructor){
-            return res.status(400).send("Unauthorized")
-        }
+        // if(req.userId != course.instructor){
+        //     return res.status(400).send("Unauthorized")
+        // }
         const updated = await Course.findOneAndUpdate({slug}, req.body, {new: true}).exec()
         res.json(updated)
     }catch(err){
@@ -307,5 +308,11 @@ courseController.addLesson = async (req, res) => {
             console.log("free enrollment", err)
             return res.status(400).send("Enrollment creation failed")
         }
+    }
+    courseController.getUserCourses = async (req, res) => {
+        const user = await User.findById(req.userId).exec();
+        // find course base user id
+        const courses = await Course.find({_id:{$in: user.courses}}).populate('instructor', "_id name").exec()
+        res.json(courses);
     }
 module.exports = courseController;

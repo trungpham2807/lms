@@ -12,7 +12,7 @@ const InstructorRoute = ({children}) => {
   const dispatch = useDispatch()
   const {user} = useSelector(state => state.auth)
   useEffect(() => {
-    dispatch(authActions.getCurrentUser())
+     dispatch(authActions.getCurrentUser())
   }, []);
 
     return (

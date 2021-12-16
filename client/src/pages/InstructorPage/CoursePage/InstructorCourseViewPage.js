@@ -13,14 +13,14 @@ import {useDispatch, useSelector} from "react-redux"
 import {authActions} from "../../../redux/actions/auth.action"
 import remarkGfm from 'remark-gfm'
 import Item from 'antd/lib/list/Item'
-
+import "../Instructor.css"
 const InstructorCourseViewPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const {user} = useSelector(state => state.auth)
     useEffect(() => {
-        dispatch(authActions.getCurrentUser())
-      }, []);
+      dispatch(authActions.getCurrentUser())
+    }, []);
     //   console.log("userrrrr", user)
 
 
@@ -143,7 +143,7 @@ const handleUnPublish = async (e, courseId) => {
 }
   return (
     <InstructorRoute>
-      <div className="container-fluid pt-3">
+      <div className="container-fluid pt-3 instructor-single-course">
         {course && (
           <div className="container-fluid pt-1">
             <div className="media pt-2">

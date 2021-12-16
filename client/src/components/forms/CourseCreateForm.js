@@ -3,7 +3,7 @@ import React from 'react'
 import {useState, useEffect} from "react"
 import {Select, Button, Avatar, Badge } from 'antd';
 import {SaveOutlined} from "@ant-design/icons"
-
+import "../../pages/HomePage/HomePage.css"
 const { Option } = Select;
 const CourseCreateForm = ({handleSubmit, 
     handleImage,
@@ -20,10 +20,10 @@ editPage = false}) => {
         priceArray.push(<Option key={i.toFixed(2)}>${i.toFixed(2)}</Option>)
     }
     return (
-        <div>
+        <div className="container">
             <form onSubmit={handleSubmit}>
                 {/* Title Course */}
-                <div className="form-group">
+                <div className="form-group mt-3">
                     <input type="text" 
                     name="name" 
                     className="form-control" 
@@ -33,8 +33,9 @@ editPage = false}) => {
                     />
                 </div>
                 {/* Description course */}
-                <div className="form-group">
-                    <textarea name="description" 
+                <div className="form-group mt-3">
+                    <textarea name="description"
+                     placeholder="Description" 
                     cols="7" rows="7" 
                     value={values.description}
                     className="form-control"
@@ -44,7 +45,7 @@ editPage = false}) => {
                 {/* Paid - Free Course */}
                 <div className="form-row pt-3">
                     <div className="col">
-                        <div className="form-group">
+                        <div className="form-group mt-3">
                             <Select
                             style={{width: "100%"}}
                             size="large"
@@ -59,8 +60,8 @@ editPage = false}) => {
                     </div>
                     {/* Price dropdown */}
                     {values.paid && 
-                    <div className="col-md-6">
-                        <div className="form-group">
+                    <div className="col">
+                        <div className="form-group mt-3">
                             <Select
                             defaultValue="$6.99"
                             style={{width: "100%"}}
@@ -74,7 +75,7 @@ editPage = false}) => {
                 </div>
     
                 {/* Category */}
-                    <div className="form-group">
+                    <div className="form-group mt-3">
                     <input type="text" 
                     name="category" 
                     className="form-control" 
@@ -86,7 +87,7 @@ editPage = false}) => {
                 {/* Image Upload */}
                 <div className="form-row">
                     <div className="col">
-                        <div className="form-group">
+                        <div className="form-group mt-3 mb-3">
                             <label className="btn btn-outline-secondary btn-block text-left">
                              {uploadButton}                                
                             <input 
@@ -116,7 +117,7 @@ editPage = false}) => {
                         <Button 
                         onClick={handleSubmit} 
                         disabled={values.loading || values.uploading}
-                        className="btn btn-primary"
+                        className="btn btn-primary button-home"
                         loading={values.loading}
                         icon={<SaveOutlined />}
                         size="large"

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {getAllCourses, uploadImage, removeImage, getCourse, createCourse, editCourse, removeVideo,
 uploadVideo, addLesson, removeLesson, updateLesson,
-publishCourse, unpublishCourse, checkEnrollment, freeEnrollment} = require("../controllers/course.controller")
+publishCourse, unpublishCourse, checkEnrollment, freeEnrollment, getUserCourses} = require("../controllers/course.controller")
 const formidable = require('express-formidable');
 // middleware
 const authMiddleware = require("../middlewares/index")
@@ -11,14 +11,15 @@ const authMiddleware = require("../middlewares/index")
 //  get all courses
 router.get('/all-courses', getAllCourses)
 
-router.get("/:slug", 
-// authMiddleware.loginRequired,
-// authMiddleware.isInstructor,
-getCourse)
+
 router.post("/",
 authMiddleware.loginRequired,
 // authMiddleware.isInstructor, 
 createCourse)
+router.get("/:slug", 
+// authMiddleware.loginRequired,
+// authMiddleware.isInstructor,
+getCourse)
 router.put("/:slug",
 authMiddleware.loginRequired,
 // authMiddleware.isInstructor,
@@ -62,4 +63,5 @@ router.post("/video-remove", formidable(), removeVideo)
 // check enrollment
 router.get('/check-enrollment/:courseId', authMiddleware.loginRequired, checkEnrollment)
 router.post('/free-enrollment/:courseId', authMiddleware.loginRequired, freeEnrollment)
+router.get('/user-courses',authMiddleware.loginRequired, getUserCourses)
 module.exports = router;

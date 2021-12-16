@@ -25,8 +25,8 @@ const SingleCoursePage = () => {
     const dispatch = useDispatch()
     const {user} = useSelector(state => state.auth)
     useEffect(() => {
-        dispatch(authActions.getCurrentUser())
-      }, []);
+      dispatch(authActions.getCurrentUser())
+    }, []);
     useEffect(() => {
         const loadCourse = async () => {
             const { data } = await axios.get(`http://localhost:8000/api/course/${slug}`);

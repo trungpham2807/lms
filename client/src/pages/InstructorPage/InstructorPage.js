@@ -10,6 +10,7 @@ import {Link} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
 import api from "../../redux/api"
 import {authActions} from "../../redux/actions/auth.action"
+import "./Instructor.css"
 // import {Context} from "../../context/index"
 const InstructorPage = () => {
     // const {state : {user}, dispatch} = useContext(Context)
@@ -100,55 +101,70 @@ const InstructorPage = () => {
             // courses && 
             courses.map(course => (
                 <>
-                <div className="media pt-2">
-                  <Avatar
-                    size={80}
-                    src={course.image ? course.image.Location : "https://i.pinimg.com/originals/71/72/80/717280e6100325a98ebbe9cd47e0fb5d.jpg"}
-                  />
-    
-                  <div className="media-body pl-2">
-                    <div className="row">
-                      <div className="col">
-                        <Link
-                          to={"/instructor/course/view/" + course.slug}
-                          className="pointer"
-                        >
-                          <div className="mt-2 text-primary">
-                            <h5 className="pt-2">{course.name}</h5>
+                
+                <div className="media pt-2 instructor-single-course">
+                  <div className="row">
+                    <div className="col-3">
+                      <Avatar
+                      size={200}
+                      shape="square"
+                      src={course.image ? course.image.Location : "https://i.picsum.photos/id/216/600/400.jpg?hmac=fYb8tMDxwuyEPTKiRbCa4QkhA_e9E0oXv50dK-OLWCM"}
+                    />
+                    </div>
+                    <div className="col-9 instructor-course-1">
+                      <div className="media-body pl-2">
+                      <div className="row">
+                        <div className="col text-left">
+                          <Link
+                            to={"/instructor/course/view/" + course.slug}
+                            className="pointer"
+                          >
+                            <div className="mt-2 text-primary">
+                              <h2 className="pt-2 text-start">{course.name}</h2>
+                            </div>
+                          </Link>
+                          <p>
+                            {course.description.slice(0, 100)+"..."}
+                          </p>
+                          <div style={{ marginTop: "-10px", textAlign:"left" }}>
+                          <span style={{marginRight: "1rem", fontWeight: "bold"}}>{course.instructor.name}</span>  
+                          <span>{course.lessons.length} Lessons</span>
+
                           </div>
-                        </Link>
-                        <p style={{ marginTop: "-10px" }}>
-                          {course.lessons.length} Lessons
-                        </p>
-    
-                        {course.lessons.length < 2 ? (
-                          <p style={{ marginTop: "-15px", fontSize: "10px" }} className="text-warning">
-                            At least 2 lessons are required to publish a course
-                          </p>
-                        ) : course.published ? (
-                          <p style={{ marginTop: "-15px", fontSize: "10px" }} className="text-success">
-                            Your course is live in site
-                          </p>
-                        ) : (
-                          <p style={{ marginTop: "-15px", fontSize: "10px" }} className="text-success">
-                            Your course is ready to be published
-                          </p>
-                        )}
-                      </div>
-    
-                      <div className="col-md-3 mt-3 text-center">
-                        {course.published ? (
-                          <Tooltip title="Published">
-                            <CheckCircleOutlined className="h5 pointer text-success" />
-                          </Tooltip>
-                        ) : (
-                          <Tooltip title="Unpublished">
-                            <CloseCircleOutlined className="h5 pointer text-warning" />
-                          </Tooltip>
-                        )}
+            
+      
+                          {course.lessons.length < 2 ? (
+                            <div className="instructor-course-live bg-warning">
+                              Required more lessons
+                            </div>
+                          ) : course.published ? (
+                            <div className="instructor-course-live bg-success">
+                              Published
+                            </div>
+                          ) : (
+                            <div className="instructor-course-live bg-success">
+                              Ready publish
+                            </div>
+                          )}
+                        </div>
+      
+                        <div className="col-md-3 mt-3 text-center">
+                          {course.published ? (
+                            <Tooltip title="Published">
+                              <CheckCircleOutlined className="h5 pointer text-success" />
+                            </Tooltip>
+                          ) : (
+                            <Tooltip title="Unpublished">
+                              <CloseCircleOutlined className="h5 pointer text-warning" />
+                            </Tooltip>
+                          )}
+                        </div>
                       </div>
                     </div>
+                  </div>  
                   </div>
+                  
+   
                 </div>
               </>
             ))

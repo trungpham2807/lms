@@ -111,7 +111,7 @@ const InstructorCourseEditPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
-            const {data} = await axios.put(`http://localhost:8000/api/course/${slug}`, {
+            const {data} = await api.put(`/course/${slug}`, {
                 ...values,
                 image,
             })
@@ -251,7 +251,7 @@ const InstructorCourseEditPage = () => {
                 </List>
               </div>
             </div>
-            <Modal title="Update leson" centered visible={visible} onCancel={()=> setVisible(false)} footer={null}>
+            <Modal title="Update lesson" centered visible={visible} onCancel={()=> setVisible(false)} footer={null}>
                  update lesson form
                  <LessonUpdateForm
                  current={current}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {Link} from "react-router-dom"
-
+import "../../pages/HomePage/HomePage.css"
 const InstructorNav = () => {
   const [current, setCurrent] = useState("");
 
@@ -11,13 +11,13 @@ const InstructorNav = () => {
   return (
     <div className="nav flex-column nav-pills">
       <Link to="/instructor">
-        <div className="nav-link active">Dashboard</div>    
+        <button className="btn button-home"style={{width: "120px"}}>Dashboard</button>    
       </Link>
       <Link className={`nav-link ${
             current === "/instructor/course/create" && "active"
           }`}to="/instructor/course/create">
 
-          <div className="nav-link active">Create Course</div>    
+          <button className="btn button-home" style={{width: "120px"}}>Create Course</button>    
 
       </Link>
     </div>

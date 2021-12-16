@@ -1,10 +1,10 @@
 import * as types from "../constants/auth.constant";
 
-const isAuthenticated = !!localStorage.getItem("accessToken");
+const isAuthenticated = !!localStorage.getItem("token");
 const initialState = {
   loading: false,
   isAuthenticated,
-  accessToken: localStorage.getItem("accessToken"),
+  accessToken: localStorage.getItem("token"),
   user: null,
 }
 
