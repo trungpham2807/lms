@@ -13,9 +13,8 @@ const CourseCard = ({course}) => {
                 className="mb-4"
                 cover={
                     <img
-                    src={beau}
                     // src={"https://miro.medium.com/max/3622/1*RoXcbaF9lIqwpMjiXg54Vw.png"}
-                    // src={image?.Location}
+                    src={image?.Location}
                     alt={name}
                     style={{ height: "300px", objectFit: "cover"}}
                     className="p-1"/>
