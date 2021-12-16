@@ -8,6 +8,7 @@ import CircleLoader from "react-spinners/CircleLoader";
 import {Link, useNavigate} from "react-router-dom"
 // import {Context} from "../../context/index"
 import api from "../../redux/api"
+import "../HomePage/HomePage.css"
 // require('dotenv').config()
 // const abc = process.env.PUBLIC_API;
 // console.log("abc", abc)
@@ -72,7 +73,7 @@ const RegisterPage = () => {
         placeholder="Enter password"
         required />
         <br />
-        <button type="submit" className="btn btn-block btn-primary p-2"
+        <button type="submit" className="btn btn-block button-home"
         disabled = {!name || !email || !password || loading}>
           {/* Set loading spinner */}
           {loading ? <CircleLoader /> : "Submit" }</button>

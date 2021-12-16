@@ -9,6 +9,9 @@ import {Link} from "react-router-dom"
 // import {Context} from "../../context/index"
 import { useNavigate } from "react-router-dom";
 import api from "../../redux/api"
+import "../HomePage/HomePage.css"
+import "./LoginPage.css"
+
 // require('dotenv').config()
 // const abc = process.env.PUBLIC_API;
 import {useDispatch} from "react-redux"
@@ -63,7 +66,7 @@ const handleSubmit = async (e) => {
   // }
 };
   return (
-    <>
+    <div className="login-page">
     <h1 className="jumbotron text-center bg-primary square">Login Page</h1>
     {/*column 12 grid -> md-4: center, padding: 5 */}
     <div className="container col-md-4 offset-md-4 pb-5">
@@ -80,7 +83,7 @@ const handleSubmit = async (e) => {
         placeholder="Enter password"
         required />
         <br />
-        <button type="submit" className="btn btn-block btn-primary p-2"
+        <button type="submit" className="btn btn-block button-home"
         disabled = {!email || !password || loading}>
           {/* Set loading spinner */}
           {loading ? <CircleLoader /> : "Submit" }</button>
@@ -93,7 +96,7 @@ const handleSubmit = async (e) => {
       </p>
 
     </div>
-    </>
+    </div>
   )
 }
 export default LoginPage

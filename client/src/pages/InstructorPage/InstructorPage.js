@@ -169,8 +169,7 @@ const InstructorPage = () => {
               </>
             ))
             }
-            {/* note for button lesson -> move to {course} */}
-            <div className="row">
+            {/* <div className="row">
                 <Button 
                 className="col-md-6 offset-md-3 text-center"
                 onClick = {() =>  setVisible(true)}
@@ -202,7 +201,7 @@ const InstructorPage = () => {
                 progress={progress}
 
               />
-            </Modal>
+            </Modal> */}
         </div>
         </InstructorRoute>
     )

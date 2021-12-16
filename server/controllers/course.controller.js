@@ -21,27 +21,20 @@ const S3 = new AWS.S3(awsConfig)
 const courseController = {};
 courseController.uploadImage = async (req, res) => {
     try{
-        const {image} = req.body;
-        if(!image) return res.status(400).send("Only image can be uploaded")
-        // prepare image
-        // const base64Data = new Buffer.from(image.replace(/^data:image\/w+;base64,/, "")
-        // ,"base64" );
-        // console.log(base64Data, "base64data");
-        // // type
-        // const type = image.split(";")[0].split('/')[1];
-        // image params
+        const {image} = req.files;
+        // console.log(video)
+        if(!image) return res.status(400).send("No image")
+
+        // video params bucket
         const params = {
             Bucket: "lms-trung-bucket",
-            // generate random name and give image type
-            Key: `${nanoid()}.${type}`,
-            // Body: base64Data,
-            Body: image,
-            ACL: "public-read",
-            ContentEncoding: "base64",
-            // ContentType: `image/${type}`
-            
+            // generate random name and give video type
+            Key: `${nanoid()}.${image.type.split('/')[1]}`, //video/mp4
+            Body: readFileSync(image.path),
+            // ACL: "public-read",
+            // ContentType: video.type,
         }
-        // upload image to S3 bucket
+        // upload video to S3 bucket
         S3.upload(params, (err,data) => {
             if(err){
                 console.log(err)
@@ -54,6 +47,41 @@ courseController.uploadImage = async (req, res) => {
         console.log(err)
     }
 }
+// courseController.uploadImage = async (req, res) => {
+//     try{
+//         const {image} = req.body;
+//         if(!image) return res.status(400).send("Only image can be uploaded")
+//         // prepare image
+//         // const base64Data = new Buffer.from(image.replace(/^data:image\/w+;base64,/, "")
+//         // ,"base64" );
+//         // console.log(base64Data, "base64data");
+//         // // type
+//         // const type = image.split(";")[0].split('/')[1];
+//         // image params
+//         const params = {
+//             Bucket: "lms-trung-bucket",
+//             // generate random name and give image type
+//             Key: `${nanoid()}.${type}`,
+//             // Body: base64Data,
+//             Body: image,
+//             ACL: "public-read",
+//             ContentEncoding: "base64",
+//             // ContentType: `image/${type}`
+            
+//         }
+//         // upload image to S3 bucket
+//         S3.upload(params, (err,data) => {
+//             if(err){
+//                 console.log(err)
+//                 return res.sendStatus(400);
+//             }
+//             console.log(data)
+//             res.send(data);
+//         })
+//     }catch(err){
+//         console.log(err)
+//     }
+// }
 
 // remove image from AWS
 courseController.removeImage = async (req, res) => {

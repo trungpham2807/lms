@@ -27,7 +27,7 @@ authMiddleware.isInstructor,
 
 
 // handle image course
-router.post("/upload-image", uploadImage)
+router.post("/upload-image", formidable(), uploadImage)
 router.post("/remove-image",removeImage)
 // publish, unpublish single course
 router.put("/publish/:courseId",

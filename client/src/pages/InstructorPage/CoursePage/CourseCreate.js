@@ -24,9 +24,9 @@ const CourseCreate = () => {
         paid: true,
         loading: false,
         category: "",
+        image: {}
     })
-    const [image, setImage] = useState({})
-    console.log("image", image)
+    // const [image, setImage] = useState({})
     const [preview, setPreview] = useState('')
     const [uploadButton, setUploadButton] = useState('Upload Image')
     // using different name properties instead of write every single on change -> [] dynamic
@@ -35,47 +35,65 @@ const CourseCreate = () => {
         setValues({...values, [e.target.name]: e.target.value})
     }
     // handle image upload
-    const handleImage = (e) => {
-        // each time call createObjURL -> new obj URL created
-        // preview image
-        setPreview(window.URL.createObjectURL(e.target.files[0]))
-        // resize images
-        let file = e.target.files[0];
-        setUploadButton(file.name);
-        setValues({...values, loading: true})
-        Resizer.imageFileResizer(
-            file,
-            720,
-            500,
-            "JPEG",
-            100,
-            0,
-            async (uri) => {
-                try{
-                    let {data} = await api.post("/api/course/upload-image", {
-                        image: uri,
-                        // set image in state
-                    })
-                    setImage(data)
-                    setValues({...values, loading: false})
+    // const handleImage = (e) => {
+    //     // each time call createObjURL -> new obj URL created
+    //     // preview image
+    //     setPreview(window.URL.createObjectURL(e.target.files[0]))
+    //     // resize images
+    //     let file = e.target.files[0];
+    //     setUploadButton(file.name);
+    //     setValues({...values, loading: true})
+    //     Resizer.imageFileResizer(
+    //         file,
+    //         720,
+    //         500,
+    //         "JPEG",
+    //         100,
+    //         0,
+    //         async (uri) => {
+    //             try{
+    //                 let {data} = await api.post("/api/course/upload-image", {
+    //                     image: uri,
+    //                     // set image in state
+    //                 })
+    //                 setImage(data)
+    //                 setValues({...values, loading: false})
 
-                }catch(err){
-                    setValues({...values, loading: false})
-                    // modify/ transform data written/read
-                    toast.error("Image upload failed. Try again.")
-                }
-            }
+    //             }catch(err){
+    //                 setValues({...values, loading: false})
+    //                 // modify/ transform data written/read
+    //                 toast.error("Image upload failed. Try again.")
+    //             }
+    //         }
 
-        )
+    //     )
 
-    }
+    // }
+    const handleImage = async (e) => {
+        
+            try{
+                const file = e.target.files[0];
+                setUploadButton(file.name);
+                // send data to backend
+                const imageData = new FormData()
+                imageData.append('image', file)
+                const {data} = await api.post("/course/upload-image", imageData)
+                // once response is received
+                console.log("lalaala", data)
+                setValues({...values, image: data})
+                toast.success("Image upload successfully")
+    
+            }catch(err){
+                toast.error("Video upload fail")
+            } 
+        }
     // remove image
     const handleImageRemove = async (e) => {
         e.preventDefault();
         try{
             setValues({...values, loading: true})
-            const res = await api.post('/api/course/remove-image', {image})
-            setImage({})
+            const {data} = await api.post("/course/remove-image", values.image)
+            setValues({...values, image: {}})
             setPreview('')
             setUploadButton('Upload image')
             setValues({...values, loading: false})
@@ -91,7 +109,7 @@ const CourseCreate = () => {
         try{
             const {data} = await api.post("http://localhost:8000/api/course", {
                 ...values,
-                image,
+                // image,
             })
             toast.success("Successfully create course")
             navigate("/instructor")

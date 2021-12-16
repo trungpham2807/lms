@@ -14,6 +14,8 @@ import {authActions} from "../../../redux/actions/auth.action"
 import remarkGfm from 'remark-gfm'
 import Item from 'antd/lib/list/Item'
 import "../Instructor.css"
+import "../../HomePage/HomePage.css"
+// import "../../HomePage/HomePage.css"
 const InstructorCourseViewPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
@@ -92,7 +94,7 @@ const InstructorCourseViewPage = () => {
         try{
             setUploading(true);
             const {data} = await api.post("/course/video-remove", values.video)
-            console.log("dataaaaaaaaa", data)
+            // console.log("dataaaaaaaaa", data)
             setValues({...values, video: {}})
             setUploading(false);
             setProgress(0); 
@@ -155,13 +157,13 @@ const handleUnPublish = async (e, courseId) => {
               <div className="media-body pl-2">
                 <div className="row">
                   <div className="col">
-                    <h5 className="mt-2 text-primary">{course.name}</h5>
-                    <p style={{ marginTop: "-10px" }}>
+                    <h4 className="mt-2 text-primary" style={{fontWeight: "bold", fontSize:"30px"}}>{course.name}</h4>
+                    <p style={{ marginTop: "-10px", fontSize: "10px" }}>
                       {course.lessons && course.lessons.length} Lessons
                     </p>
-                    <p style={{ marginTop: "-15px", fontSize: "10px" }}>
+                    <Button className="button-home" style={{ marginTop: "-15px", fontSize: "12px", backgroundColor: "#FAEDC6" }}>
                       {course.category}
-                    </p>
+                    </Button>
                   </div>
 
                   <div className="d-flex pt-4">
@@ -206,7 +208,7 @@ const handleUnPublish = async (e, courseId) => {
             <div className="row">
               <Button
                 onClick={() => setVisible(true)}
-                className="col-md-6 offset-md-3 text-center"
+                className="col-md-6 offset-md-5 text-center button-home"
                 type="primary"
                 shape="round"
                 icon={<UploadOutlined />}
