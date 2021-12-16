@@ -20,6 +20,7 @@ import InstructorPage from "./pages/InstructorPage/InstructorPage"
 import InstructorCourseViewPage from "./pages/InstructorPage/CoursePage/InstructorCourseViewPage"
 import InstructorCourseEditPage from "./pages/InstructorPage/CoursePage/InstructorCourseEditPage"
 import UserPage from "./pages/UserPage/UserPage"
+import UserCoursePage from "./pages/UserPage/UserCoursePage"
 import BecomeInstructor from "./pages/UserPage/BecomeIntructor"
 import StripePage from "./pages/StripePage/StripePage"
 import DiscoverCoursePage from "./pages/DiscoverCoursePage/DiscoverCoursePage"
@@ -44,6 +45,7 @@ function App() {
           <Route path="/instructor/course/view/:slug" element={<InstructorCourseViewPage />} />
           <Route path="/instructor/course/edit/:slug" element={<InstructorCourseEditPage />} />
           <Route path="/user" element={<UserPage />} />
+          <Route path="/user/course/:slug" element={<UserCoursePage/>} />
           <Route path="/user/become-instructor" element={<BecomeInstructor />} />
           <Route path="instructor/get-account-status" element={<StripePage/>} />
         </Routes>

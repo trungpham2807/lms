@@ -47,7 +47,7 @@ const InstructorCourseEditPage = () => {
         loadCourse()
     }, [slug])
     const loadCourse = async () => {
-        const {data} = await api.get(`http://localhost:8000/api/course/${slug}`)
+        const {data} = await api.get(`/course/${slug}`)
         setValues(data)
         setCourse(data)
         // console.log("1data", data)

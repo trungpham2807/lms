@@ -46,7 +46,7 @@ const InstructorCourseViewPage = () => {
     const handleCreateLesson = async (e) => {
       try{
         e.preventDefault();
-        const {data} = await api.post(`http://localhost:8000/api/course/lesson/${slug}/${course.instructor._id}`, values)
+        const {data} = await api.post(`/course/lesson/${slug}/${course.instructor._id}`, values)
         setValues({...values, title: "", content: "", video: {}})
         setProgress(0);
         setUploadButtonText("Upload Video")
@@ -70,7 +70,7 @@ const InstructorCourseViewPage = () => {
             const videoData = new FormData()
             videoData.append('video', file)
             // save progress bar -> send video as form data to backend
-            const {data} = await api.post("http://localhost:8000/api/course/video-upload", videoData, {
+            const {data} = await api.post("/course/video-upload", videoData, {
                 onUploadProgress: (e) => {
                     setProgress(Math.round(100 * e.loaded) / e.total)
                 }
@@ -91,7 +91,7 @@ const InstructorCourseViewPage = () => {
     const handleVideoRemove = async () => {
         try{
             setUploading(true);
-            const {data} = await api.post("http://localhost:8000/api/course/video-remove", values.video)
+            const {data} = await api.post("/course/video-remove", values.video)
             console.log("dataaaaaaaaa", data)
             setValues({...values, video: {}})
             setUploading(false);
@@ -112,7 +112,7 @@ const params = useParams();
   }, [slug]);
 
   const loadCourse = async () => {
-    const { data } = await api.get(`http://localhost:8000/api/course/${slug}`);
+    const { data } = await api.get(`/course/${slug}`);
     // console.log("dadadada", data)
     setCourse(data);
   };
@@ -120,7 +120,7 @@ const params = useParams();
 const handlePublish = async (e, courseId) => {
   try{
     let answer = window.confirm("Do you want to publish your course")
-    const {data} = await api.put(`http://localhost:8000/api/course/publish/${courseId}`)
+    const {data} = await api.put(`/course/publish/${courseId}`)
     setCourse(data);
     toast("Congrat to publish course!")
   }catch(err){
@@ -131,7 +131,7 @@ const handlePublish = async (e, courseId) => {
 const handleUnPublish = async (e, courseId) => {
   try{
     let answer = window.confirm("course not available")
-    const {data} = await api.put(`http://localhost:8000/api/course/unpublish/${courseId}`)
+    const {data} = await api.put(`/course/unpublish/${courseId}`)
     setCourse(data);
     toast("unplish course!")
 

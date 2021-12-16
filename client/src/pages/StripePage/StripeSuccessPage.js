@@ -16,7 +16,7 @@ const StripeSuccessPage = () => {
   console.log(id);
 
   const successRequest = async () => {
-    const { data } = await api.get(`/api/stripe-success/${id}`);
+    const { data } = await api.get(`/stripe-success/${id}`);
     // console.log("SUCCESS REQ DATA", data);
     navigate(`/user/course/${data.course.slug}`);
   };

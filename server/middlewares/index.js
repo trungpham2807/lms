@@ -71,13 +71,26 @@ authMiddleware.isInstructor = async (req, res, next) => {
     }
 }
 // check if enrolled or not
-// authMiddleware.isEnrolled = async(req, res, next) => {
-//     try{
+authMiddleware.isEnrolled = async(req, res, next) => {
+  try {
+    const user = await User.findById(req.userId).exec();
+    const course = await Course.findOne({ slug: req.params.slug }).exec();
 
-//     }catch(err){
+    // check if course id is found in user courses array
+    let ids = [];
+    for (let i = 0; i < user.courses.length; i++) {
+      ids.push(user.courses[i].toString());
+    }
 
-//     }
-// }
+    if (!ids.includes(course._id.toString())) {
+      res.sendStatus(403);
+    } else {
+      next();
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 
 module.exports = authMiddleware;

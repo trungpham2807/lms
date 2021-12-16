@@ -18,9 +18,10 @@ const UserPage = () => {
     }, [])
     const loadCourses = async () => {
         const {data} = await api.get('/course/user-courses')
+        console.log("abac", courses)
+
         setCourses(data)
     }
-    console.log("abac", courses)
     return (
         <UserRoute>
             <h1 className="jumbotron text-center square">User Dashboard</h1>

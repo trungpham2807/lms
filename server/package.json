@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@stripe/stripe-js": "^1.22.0",
     "aws-sdk": "^2.1044.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.1",

@@ -13,6 +13,8 @@ import ReactPlayer from "react-player"
 import SingleCourseLesson from "../../components/cards/SingleCourseLesson"
 import {useNavigate} from "react-router-dom"
 import {toast} from "react-toastify"
+import { loadStripe } from "@stripe/stripe-js";
+
 const SingleCoursePage = () => {
   const navigate = useNavigate();
     const [course, setCourse] = useState([]);
@@ -29,7 +31,7 @@ const SingleCoursePage = () => {
     }, []);
     useEffect(() => {
         const loadCourse = async () => {
-            const { data } = await api.get(`/api/course/${slug}`);
+            const { data } = await api.get(`/course/${slug}`);
             setCourse(data);
           };
         loadCourse();
@@ -46,9 +48,24 @@ useEffect(()=> {
       console.log("dataaaa", data)
       setEnrolled(data)
     }
-    const handlePaidEnrollment = () => {
-        console.log("handle paid enrollment")
-    }
+    const handlePaidEnrollment = async () => {
+      try {
+        setLoading(true);
+        // check if user is logged in
+        if (!user) navigate("/login");
+        // check if already enrolled
+        if (enrolled.status)
+          return navigate(`/user/course/${enrolled.course.slug}`);
+        const { data } = await api.post(`course/paid-enrollment/${course._id}`);
+        const stripe = await loadStripe(process.env.STRIPE_PUBLIC_KEY);
+        console.log("stripe", stripe)
+        stripe.redirectToCheckout({ sessionId: data });
+      } catch (err) {
+        toast("Enrollment failed, try again.");
+        console.log(err);
+        setLoading(false);
+      }
+    };
     const handleFreeEnrollment = async (e) => {
       e.preventDefault();
       try{
