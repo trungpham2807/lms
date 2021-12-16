@@ -74,7 +74,7 @@ const InstructorCourseEditPage = () => {
             0,
             async (uri) => {
                 try{
-                    let {data} = await axios.post("http://localhost:8000/api/course/upload-image", {
+                    let {data} = await api.post("/api/course/upload-image", {
                         image: uri,
                         // set image in state
                     })
@@ -96,7 +96,7 @@ const InstructorCourseEditPage = () => {
         e.preventDefault();
         try{
             setValues({...values, loading: true})
-            const res = await axios.post('http://localhost:8000/api/course/remove-image', {image})
+            const res = await api.post('/api/course/remove-image', {image})
             setImage({})
             setPreview('')
             setUploadButton('Upload image')

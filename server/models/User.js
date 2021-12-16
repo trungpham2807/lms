@@ -28,10 +28,10 @@ const userSchema = new Schema(
 
   
   // userSchema.methods.generateToken = async function () {
-  //   const accessToken = await jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
+  //   const token = await jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
   //     expiresIn: "365d",
   //   });
-  //   return accessToken;
+  //   return token;
   // };
 const User = mongoose.model("User", userSchema)
 module.exports = User;

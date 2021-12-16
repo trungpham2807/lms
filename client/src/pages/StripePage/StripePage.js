@@ -14,13 +14,10 @@ const StripePage = () => {
 
   useEffect(() => {
     if (user) {
-      axios.post("http://localhost:8000/api/get-account-status").then((res) => {
+      api.post("/get-account-status").then((res) => {
         // console.log(res);
-        dispatch({
-          type: "LOGIN",
-          payload: res.data,
-        });
-        window.localStorage.setItem("user", JSON.stringify(res.data));
+        // dispatch(authActions.loginRequest())
+        // window.localStorage.setItem("user", JSON.stringify(res.data));
         window.location.href = "/instructor";
       });
     }

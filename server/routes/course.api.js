@@ -14,7 +14,7 @@ router.get('/all-courses', getAllCourses)
 
 router.post("/",
 authMiddleware.loginRequired,
-// authMiddleware.isInstructor, 
+authMiddleware.isInstructor, 
 createCourse)
 router.get("/:slug", 
 // authMiddleware.loginRequired,
@@ -22,7 +22,7 @@ router.get("/:slug",
 getCourse)
 router.put("/:slug",
 authMiddleware.loginRequired,
-// authMiddleware.isInstructor,
+authMiddleware.isInstructor,
  editCourse)
 
 

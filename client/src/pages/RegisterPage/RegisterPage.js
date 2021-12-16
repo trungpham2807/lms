@@ -7,7 +7,7 @@ import {toast} from "react-toastify"
 import CircleLoader from "react-spinners/CircleLoader";
 import {Link, useNavigate} from "react-router-dom"
 // import {Context} from "../../context/index"
-
+import api from "../../redux/api"
 // require('dotenv').config()
 // const abc = process.env.PUBLIC_API;
 // console.log("abc", abc)
@@ -35,7 +35,7 @@ const RegisterPage = () => {
     e.preventDefault();
     try{
       setLoading(true);
-      const {data} = await axios.post(`http://localhost:8000/api/auth/register`, { 
+      const {data} = await api.post(`/auth/register`, { 
         name, email, password
       })
       toast.success("Register successfully")
@@ -44,7 +44,7 @@ const RegisterPage = () => {
       setPassword("");
       setLoading(false);
     }catch(err){
-      toast.error(err.response.data)
+      toast.error("Register error")
       setLoading(false)
     }
    

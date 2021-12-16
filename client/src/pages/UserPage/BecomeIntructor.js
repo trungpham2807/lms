@@ -9,30 +9,41 @@ import {useNavigate} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
 import api from "../../redux/api"
 import {authActions} from "../../redux/actions/auth.action"
-const BecomeIntructor = () => {
+import "../HomePage/HomePage.css"
+const BecomeInstructor = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate();
     const {user} = useSelector(state => state.auth)
     useEffect(() => {
       dispatch(authActions.getCurrentUser())
     }, []);
-    const navigate = useNavigate();
     // state
     const [loading, setLoading] = useState(false);
-    // const {state : {user}, dispatch} = useContext(Context)
-
 
     // become instructor
-    const becomeInstructor = () => {
-        setLoading(true)
-        axios.post("http://localhost:8000/api/instructor/become-instructor")
-        .then(res=>{
-            window.location.href = res.data;
-        })
-        .catch(err => {
+    // const becomeInstructor = () => {
+    //     setLoading(true)
+    //     api.post("/instructor/become-instructor")
+    //     .then(res=>{
+    //         window.location.href = res.data;
+    //         console.log("resss", res)
+    //     })
+    //     .catch(err => {
+    //         console.log(err)
+    //         toast("Set payment failed")
+    //         setLoading(true)
+    //     })
+    // }
+    const becomeInstructor = async () => {
+        try{
+            const {data} = await api.post("/instructor/become-instructor")
+            toast("success redirect to payment gateway")
+            window.location.href = data;
+        }catch(err){
             console.log(err)
-            toast("Set payment failed")
-            setLoading(true)
-        })
+            toast("stripe failed. try again")
+        }
+      
     }
     return (
         <div>
@@ -42,9 +53,9 @@ const BecomeIntructor = () => {
                     <div className="pt-4">
                         <UserSwitchOutlined className="display-1 pb-3" />
                     <br />
-                    <h2>Setup payout to publish courses on Trung LMS</h2>
+                    <h2>Setup payout to publish courses on Trung Academy</h2>
                     <p className="lead text-warning">stripe account</p>
-                    <Button className="mb-3" type="primary" block shape="round"
+                    <Button className="mb-3 button-home"  block shape="round"
                      icon={loading ? <LoadingOutlined /> : <SettingOutlined/>}
                      size="large"
                      onClick={becomeInstructor}
@@ -62,4 +73,4 @@ const BecomeIntructor = () => {
     )
 }
 
-export default BecomeIntructor
+export default BecomeInstructor

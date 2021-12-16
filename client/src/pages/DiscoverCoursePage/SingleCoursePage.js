@@ -29,7 +29,7 @@ const SingleCoursePage = () => {
     }, []);
     useEffect(() => {
         const loadCourse = async () => {
-            const { data } = await axios.get(`http://localhost:8000/api/course/${slug}`);
+            const { data } = await api.get(`/api/course/${slug}`);
             setCourse(data);
           };
         loadCourse();

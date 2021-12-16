@@ -11,7 +11,7 @@ const DiscoverCoursePage = () => {
 
     useEffect(() => {
         const loadCourse = async () => {
-            const { data } = await axios.get("http://localhost:8000/api/course/all-courses");
+            const { data } = await api.get("/api/course/all-courses");
             setCourses(data);
           };
         loadCourse();

@@ -134,7 +134,7 @@ const handleSearchInputChange = (e) => {
 
                    {
                     // user &&
-                //    user.role && 
+                   user.role && 
                    user.role.includes("instructor") ? 
                    (<Item key="/instructor">
                    <Link to="/instructor">
