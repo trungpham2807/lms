@@ -385,12 +385,19 @@ courseController.addLesson = async (req, res) => {
           }
         };
     courseController.getUserCourses = async (req, res) => {
-        // const user = await User.findById(req.userId).exec();
-        // console.log("hihi", user)
-        res.send("wtf")
-        // find course base user id
-        // const courses = await Course.find({_id:{$in: user.courses}}).populate('instructor', "_id name").exec()
-        // res.json(courses);
+        try{
+            console.log('zzxcxz')
+            const user = await User.findById(req.userId).exec();
+            console.log("aa", user)
+            // res.json(user)
+            // find course base user id
+            const courses = await Course.find({_id:{$in: user.courses}}).populate('instructor', "_id name").exec()
+            res.json(courses);
+            // res.status(200).send("Success get course")
+        }catch(err){
+            console.log(err)
+            res.status(400).send("Error get course")
+        }
     }
     courseController.getUserSingleCourse = async (req, res) => {
         try {

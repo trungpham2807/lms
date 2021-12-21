@@ -28,9 +28,10 @@ const InstructorCourseEditPage = () => {
         paid: true,
         loading: false,
         category: "",
+        image: {}
     })
     const [course, setCourse] = useState([]);
-    const [image, setImage] = useState({})
+    // const [image, setImage] = useState({})
     const [preview, setPreview] = useState('')
     const [uploadButton, setUploadButton] = useState('Upload Image')
     // using different name properties instead of write every single on change -> [] dynamic
@@ -57,63 +58,47 @@ const InstructorCourseEditPage = () => {
         setValues({...values, [e.target.name]: e.target.value})
     }
     // handle image upload
-    const handleImage = (e) =>  {
-        // each time call createObjURL -> new obj URL created
-        // preview image
-        setPreview(window.URL.createObjectURL(e.target.files[0]))
-        // resize images
-        let file = e.target.files[0];
-        setUploadButton(file.name);
-        setValues({...values, loading: true})
-        Resizer.imageFileResizer(
-            file,
-            720,
-            500,
-            "JPEG",
-            100,
-            0,
-            async (uri) => {
-                try{
-                    let {data} = await api.post("/api/course/upload-image", {
-                        image: uri,
-                        // set image in state
-                    })
-                    setImage(data)
-                    setValues({...values, loading: false})
-
-                }catch(err){
-                    setValues({...values, loading: false})
-                    // modify/ transform data written/read
-                    toast.error("Image upload failed. Try again.")
-                }
-            }
-
-        )
-
-    }
-    // remove image
-    const handleImageRemove = async (e) => {
-        e.preventDefault();
-        try{
-            setValues({...values, loading: true})
-            const res = await api.post('/api/course/remove-image', {image})
-            setImage({})
-            setPreview('')
-            setUploadButton('Upload image')
-            setValues({...values, loading: false})
-            toast.success("Remove success")
-        }catch(err){
-            setValues({...values, loading: false})
-            toast.error("Image remove failed. Try again")
-        }
+    const handleImage = async (e) => {
         
+        try{
+            const file = e.target.files[0];
+            setUploadButton(file.name);
+            // send data to backend
+            const imageData = new FormData()
+            imageData.append('image', file)
+            const {data} = await api.post("/course/upload-image", imageData)
+            // once response is received
+            console.log("lalaala", data)
+            setValues({...values, image: data})
+            toast.success("Image upload successfully")
+
+        }catch(err){
+            toast.error("Video upload fail")
+        } 
     }
+// remove image
+const handleImageRemove = async (e) => {
+    e.preventDefault();
+    try{
+        setValues({...values, loading: true})
+        const {data} = await api.post("/course/remove-image", values.image)
+        setValues({...values, image: {}})
+        setPreview('')
+        setUploadButton('Upload image')
+        setValues({...values, loading: false})
+        toast.success("Remove success")
+    }catch(err){
+        setValues({...values, loading: false})
+        toast.error("Image remove failed. Try again")
+    }
+    
+}
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
             const {data} = await api.put(`/course/${slug}`, {
                 ...values,
-                image,
+                // image,
             })
             toast.success("Course updated")
         }catch(err){
@@ -140,7 +125,9 @@ const InstructorCourseEditPage = () => {
         // save lessons to mongodb
         const {data} = await api.put(`http://localhost:8000/api/course/${slug}`, {
             ...values,
-            image})
+            // image
+        }
+            )
      toast("lesson re-arranged success")
     }
     // delete lesson by course slug and id lesson

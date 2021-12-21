@@ -1,37 +1,28 @@
 import React from "react";
 import { Button, Col, Form } from "react-bootstrap";
-
+import "./SearchForm.css"
+import {SearchOutlined} from "@ant-design/icons"
 const SearchForm = ({
   searchInput,
   handleSearchChange,
   handleSubmit,
 }) => {
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Row>
-        <Col>
-          <Form.Control
-            placeholder="Search..."
-            value={searchInput}
-            onChange={handleSearchChange}
-          />
-        </Col>
-        <Button type="submit">Search</Button>
-
-        {/* {loading ? (
-          <Button disabled>
-            <span
-              className="spinner-border spinner-border-sm"
-              role="status"
-              aria-hidden="true"
-            ></span>
-            Searching..
-          </Button>
-        ) : (
-          <Button type="submit">Search</Button>
-        )} */}
-      </Form.Row>
-    </Form>
+    <div className="search-form">
+      <Form onSubmit={handleSubmit}>
+        <Form.Control
+        className="search-form-control"
+        onChange={handleSearchChange}
+        value={searchInput}
+        type="text"
+        placeholder="Search"
+        />
+      </Form>
+      <div className="search-form-icon">
+        <SearchOutlined/>
+      </div>  
+    </div>
+    
   );
 };
 

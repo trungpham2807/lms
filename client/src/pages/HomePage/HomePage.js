@@ -17,6 +17,7 @@ import s33 from "../../images/s3.3.jpg"
 import test from "../../images/test.png"
 import {ReactComponent as Background} from "../../images/background.svg"
 import bannerImg from "../../images/bannerImg.png"
+import Footer from "./Footer"
 const HomePage = () => {
     const dispatch = useDispatch()
     const {user} = useSelector(state => state.auth)
@@ -123,6 +124,7 @@ const HomePage = () => {
             </div>
     
         </section>
+        <Footer />
         </>
     )
 }

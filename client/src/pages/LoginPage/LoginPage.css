@@ -2,7 +2,8 @@
     /* background-image: url("../../images/b2.jpeg") */
 }
 .jumbotron{
-    height: 200px;
+    /* height: 300px; */
+    height: fit-content
 
     /* background-image: url("../../images/b.jpeg") */
 

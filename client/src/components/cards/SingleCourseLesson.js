@@ -1,5 +1,6 @@
 import React from 'react'
 import {List, Avatar} from "antd"
+import "./SingleCourseLesson.css"
 const {Item} = List;
 const SingleCourseLesson = (
     lessons,
@@ -7,11 +8,10 @@ const SingleCourseLesson = (
     showModal, 
     setShowModal
 ) => {
-    console.log("lessons", lessons.lessons.length)
+    // console.log("lessons", lessons.lessons.length)
     return (
-        <div className="container">
       <div className="row">
-        <div className="col lesson-list">
+        <div className="col single-course-lesson-list">
           {lessons && <h4>{lessons.lessons.length} Lessons</h4>}
           <hr />
           <List
@@ -42,7 +42,6 @@ const SingleCourseLesson = (
           />
         </div>
       </div>
-    </div>
     )
 }
 

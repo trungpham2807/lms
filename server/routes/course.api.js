@@ -16,6 +16,8 @@ router.post("/",
 authMiddleware.loginRequired,
 authMiddleware.isInstructor, 
 createCourse)
+router.get('/user-courses',authMiddleware.loginRequired, getUserCourses)
+
 router.get("/:slug", 
 // authMiddleware.loginRequired,
 // authMiddleware.isInstructor,
@@ -64,7 +66,6 @@ router.post("/video-remove", formidable(), removeVideo)
 router.get('/check-enrollment/:courseId', authMiddleware.loginRequired, checkEnrollment)
 router.post('/free-enrollment/:courseId', authMiddleware.loginRequired, freeEnrollment)
 router.post('/paid-enrollment/:courseId', authMiddleware.loginRequired, paidEnrollment)
-router.get('/user-courses',authMiddleware.loginRequired, getUserCourses)
 router.get('/user/course/:slug',authMiddleware.loginRequired, authMiddleware.isEnrolled, getUserSingleCourse)
 
 module.exports = router;

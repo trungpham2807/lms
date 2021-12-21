@@ -105,14 +105,22 @@ useEffect(()=> {
         setShowModal={setShowModal}
         preview={preview}
       />
-      {course.lessons && (
-          <SingleCourseLesson
-          lessons = {course.lessons}
-          setPreview={setPreview}
-          showModal={showModal}
-          setShowModal={setShowModal}
-          />
-      )}
+      <div className="container">
+        <div className="row">
+          <div className="col-7">
+            {course.lessons && (
+            <SingleCourseLesson
+            lessons = {course.lessons}
+            setPreview={setPreview}
+            showModal={showModal}
+            setShowModal={setShowModal}
+            />
+            )}
+          </div>
+
+        </div>
+      </div>
+     
         </>
     )
 }

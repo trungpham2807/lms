@@ -1,0 +1,26 @@
+.discover-course-page{
+    background-image: url("https://d2j5ihb19pt1hq.cloudfront.net/front-page-rebrand/c.svg");
+    background-position: 100% 58%;
+    background-repeat: no-repeat;
+    background-size: 70%;
+
+}
+.discover-course{
+    /* background-image: url("https://d2j5ihb19pt1hq.cloudfront.net/front-page-rebrand/c.svg"); */
+    z-index: -999;
+    height: 100%;
+    width: 100%;
+}
+.filter-course-length{
+    font-size: 18px;
+}
+.filter-course-length span{
+    font-weight: bold;
+    font-size: 25px;
+    color: var(--green-primary)
+}
+.filter-course-search{
+    font-weight: bold;
+    font-size: 25px;
+    color: var(--green-primary)
+}

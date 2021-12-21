@@ -1,0 +1,105 @@
+.instructor-single-course{
+    border:none !important;
+}
+.instructor-view-button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: fit-content;
+}
+.instructor-view-course-button{
+    /* margin-top: "-15px";  */
+    font-size: 10px; 
+    background-color: #FAEDC6;
+    padding: 2px 5px !important;
+    height: fit-content;
+    border: none;
+    transform: translate(0,-10%)
+
+}
+.instructor-view-course-image{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30rem;
+    overflow:hidden;
+    z-index: -10;
+
+}
+.instructor-view-course-sub-image{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30rem;
+    overflow:hidden;
+    z-index: 0;
+    background-color: #80808080;
+
+}
+.instructor-course-view-description{
+    /* margin-top: 30rem; */
+}
+.instructor-course-view{
+    position: relative;
+    height: 30rem;
+    padding: 20px;
+    color: white !important;
+}
+.instructor-view-course-avatar{
+    z-index: 2;
+}
+.instructor-view-name{
+    position: relative;
+    background-color: #0000003b;
+    height: 10rem;
+    text-align: left;
+    padding: 1rem 2rem;
+
+    
+}
+.instructor-view-name h4{
+    color: white !important;
+}
+/* .instructor-view-name > .row{
+
+} */
+.instructor-edit-button-edit, .instructor-edit-button-publish{
+    color: #fff;
+    background-color: var(--green-primary);
+    border-color: var(--green-primary);
+}
+.instructor-edit-button-unpublish{
+    color: #fff;
+    background-color: #de5038;
+    border-color: #de5038;
+}
+.instructor-edit-button-require{
+    background-color: var(--yellow-primary);
+    border-color: var(--yellow-primary);
+}
+.instructor-edit-button-icon{
+    margin-right: 5px;
+    transform: translate(0, -10%)
+}
+.instructor-edit-button{
+    margin-right: 10px;
+}
+.instructor-view-course-sub-icon{
+    margin-right: 20px;
+}
+.instructor-view-course-sub-icon span{
+    transform: translate(0, -20%);
+    margin-right: 5px;
+}
+.instructor-view-course-create-name :nth-child(2){
+    color: var(--green-secondary);
+    font-family: 'Roboto', sans-serif;
+    text-decoration: underline;
+    font-size: 18px;
+
+}
+.instructor-view-lesson-list{
+    text-align: left;
+}
