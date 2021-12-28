@@ -48,9 +48,14 @@
     font-size: 13px;
 }
 .single-course-enroll-text{
-    padding: 10px 50px;
+    padding: 20px 50px;
     color: #000 !important;
 
+    
+}
+.single-course-enroll-text span{
+    transform: translate(0, -10%);
+    margin-right: 10px;
 }
 
 

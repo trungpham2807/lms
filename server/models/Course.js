@@ -37,7 +37,7 @@ const courseSchema = new Schema(
         description: {type: {}, required: true},
         price: {type: Number, default: 6.99},
         image: {}, 
-        category: String,
+        category: {type: String, enum: ["Coding", "Business", "Art", "Personal Development", "Marketing"]},
         published: {
             type: Boolean,
             default: false

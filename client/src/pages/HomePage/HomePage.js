@@ -98,7 +98,7 @@ const HomePage = () => {
             <div className="home-page-3">
                 <div>
                     <Link to="/instructor">
-                        <button className="btn btn-primary button-home">
+                        <button className="btn button-home">
                             Instructor
                         </button>
                     </Link>
@@ -106,14 +106,14 @@ const HomePage = () => {
                 </div>
                 <div>
                     <Link to="/user">
-                        <button className="btn btn-primary button-home">
+                        <button className="btn button-home">
                             Student
                         </button>
                     </Link>
                 </div>
                 <div>
                     <Link to="/user/become-instructor">
-                        <button className="btn btn-primary button-home">
+                        <button className="btn button-home">
                                 Become Instructor
                         </button>
                     </Link>   

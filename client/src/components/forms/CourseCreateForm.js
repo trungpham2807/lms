@@ -19,6 +19,7 @@ editPage = false}) => {
     for (let i=6.99; i<=99.99; i++){
         priceArray.push(<Option key={i.toFixed(2)}>${i.toFixed(2)}</Option>)
     }
+    const categoryArray = ["Coding", "Business", "Art", "Personal Development", "Marketing"];
     return (
         <div className="container">
             <form onSubmit={handleSubmit}>
@@ -71,11 +72,25 @@ editPage = false}) => {
                             {priceArray}
                             </Select>
                         </div>
-                    </div>}
+                    </div>
+                    }
                 </div>
     
                 {/* Category */}
-                    <div className="form-group mt-3">
+                <div className="col">
+                        <div className="form-group mt-3">
+                            <Select
+                            defaultValue="Category"
+                            style={{width: "100%"}}
+                            onChange = {e => 
+                                setValues({...values, category: e})}
+                            tokenSeparator={[,]}
+                            size="large">
+                            {categoryArray.map(e=> <Option value={e}>{e}</Option>)}
+                            </Select>
+                        </div>
+                    </div>
+                    {/* <div className="form-group mt-3">
                     <input type="text" 
                     name="category" 
                     className="form-control" 
@@ -83,7 +98,7 @@ editPage = false}) => {
                     value={values.category}
                     onChange={handleChange}
                     />
-                </div>
+                </div> */}
                 {/* Image Upload */}
                 <div className="form-row">
                     <div className="col">

@@ -8,8 +8,7 @@ import {Badge, Modal, Button} from "antd"
 import PreviewModal from '../../components/modal/PreviewModal'
 import {currencyFormatter} from "../../utils/helper"
 import ReactPlayer from "react-player"
-import {LoadingOutlined, SafetyOutlined, PlayCircleOutlined} from "@ant-design/icons"
-
+import {FileOutlined, FolderAddOutlined, CodepenOutlined, AliyunOutlined, MobileOutlined, SafetyCertificateOutlined, VideoCameraOutlined, LoadingOutlined, SafetyOutlined, PlayCircleOutlined} from "@ant-design/icons"
 import "./SingleCourseCard.css"
 const SingleCourseCard = ({course,
     showModal,
@@ -130,14 +129,13 @@ const SingleCourseCard = ({course,
               </div>
             )}
             <div className="single-course-enroll-text">
-              60 hours on-demand video <br/>
-              230 articles <br/>
-              128 downloadable resources <br/>
-              1 coding exercise <br/>
-              Full lifetime access <br/>
-              Access on mobile and TV <br/>
-              Assignments <br/>
-              Certificate of completion <br/>
+              <VideoCameraOutlined />on-demand video <br/>
+              <FileOutlined />articles <br/>
+              <FolderAddOutlined />downloadable resources <br/>
+              <CodepenOutlined />coding exercise <br/>
+              <AliyunOutlined />Full lifetime access <br/>
+              <MobileOutlined />Access on mobile and TV <br/>
+              <SafetyCertificateOutlined />Certificate of completion <br/>
             </div>
           </div>
           </div>
